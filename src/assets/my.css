@@ -1,0 +1,151 @@
+/* Global Styles */
+@font-face {
+  font-family: 'Open Sauce Sans';
+  src:  url('fonts/OpenSauceSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+html, body {
+  background-color: rgb(29, 43, 57);
+  box-sizing: border-box;
+  color: rgb(255, 255, 255);
+  display: block;
+  font-family: 'Open Sauce Sans', sans-serif !important;
+  margin: 0;
+  min-height: -webkit-fill-available;
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: none;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-size: 14px !important;
+  text-size-adjust: none !important;
+  -webkit-text-size-adjust: none !important;
+}
+
+/* Ensure all elements inherit border-box sizing */
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Ensure the body takes full viewport height dynamically */
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+/* Remove unwanted margins for consistency */
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Optional: Prevent horizontal scrolling */
+html, body {
+  overflow-x: hidden;
+}
+.nav-css {
+    box-sizing: border-box;
+    display: flex !important;
+    justify-content: flex-start !important; /* Force left alignment */
+    align-items: center !important;
+    width: 100% !important;
+    flex-wrap: nowrap !important;
+    position: relative !important;
+    padding-left: 12px; /* Small left margin */
+}
+
+/* Navigation List */
+.nav-css ul {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    overflow: hidden; /* Items remove from the left on smaller screens */
+    white-space: nowrap; /* Prevents wrapping */
+    justify-content: flex-start !important;
+}
+
+/* Navigation Items - Allow Dynamic Width */
+.nav-css li {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 42.1953px;
+    min-width: 50px; /* Ensures small text fits properly */
+    line-height: 20px;
+    list-style: none;
+    text-align: center;
+    padding: 6.4px 0px 12.8px 0px;
+    margin: 0px 12px 3px 0px; /* Keeps slight left margin */
+    outline: none;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-bottom: 3px solid rgba(0, 0, 0, 0); /* Invisible border until hover */
+}
+
+/* Apply the same styles to all items like "Global Elections" */
+.nav-css li a {
+    background-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+    box-sizing: border-box;
+    color: rgb(252, 252, 252);
+    cursor: pointer;
+    display: flex;
+    font-family: 'Open Sauce Sans', sans-serif !important;
+    font-size: 14px;
+    font-weight: 400;
+    height: 42.1953px;
+    line-height: 20px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: capitalize;
+    padding: 6.4px 0px 12.8px 0px;
+    text-size-adjust: 100%;
+    user-select: none;
+    transition: all 0.2s ease;
+    width: auto; /* Allows dynamic width */
+}
+
+/* Fix Global Elections width */
+.nav-css li[data-item="global-elections"] {
+    width: 110.914px !important;
+}
+
+/* Hover Effect - White Underline */
+.nav-css li:hover {
+    border-bottom: 3px solid white;
+}
+
+/* LIVE Indicator - Fix alignment */
+.nav-css .live-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Blinking Red Dot */
+.nav-css .live-indicator {
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: rgb(255, 88, 66);
+    border-radius: 50%;
+    margin-left: 4px;
+    position: relative;
+    top: -1px; /* Adjust alignment */
+    animation: blink-red 1.9s infinite ease-out;
+}
+
+/* Blinking Animation */
+@keyframes blink-red {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+

@@ -1,0 +1,183 @@
+.t-loKGjP {
+    /* Now empty to avoid overriding global styles */
+}
+
+:root {
+    --sat: env(safe-area-inset-top);
+    --sar: env(safe-area-inset-right);
+    --sab: env(safe-area-inset-bottom);
+    --sal: env(safe-area-inset-left);
+    --viewport-height: 100%;
+    --vaul-custom-overlay-background: 255, 255, 255;
+    --vaul-custom-overlay-background-start: rgba(0, 0, 0, 0);
+    --vaul-custom-overlay-background-end: rgba(0, 0, 0, 0.4);
+    --mobile-bottom-nav-z-index: 102;
+    --navbar-height: 118px;
+    --expanded-scoreboard-height: 95px;
+    --condensed-scoreboard-height: 42px;
+}
+
+.c-kSQJAJ {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+    text-align: center;
+    transition: top 0.2s;
+    z-index: 5;
+    padding-top: 0px;
+}
+
+.c-dhzjXW {
+    display: flex;
+}
+
+.c-fQxlvL {
+    position: sticky;
+    display: flex;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0px;
+    text-align: center;
+    box-shadow: var(--shadows-dropShadowMdLight);
+    border-bottom: 1px solid var(--colors-borderLight);
+    z-index: 5;
+    transition: top 0.2s;
+    overscroll-behavior: none;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0,0,0,0)!important;
+}
+
+div {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+body[data-color-mode="dark"] {
+    background-color: rgb(29, 43, 57);
+    color: rgb(255, 255, 255);
+}
+
+body {
+    margin: 0;
+    background-color: rgb(29, 43, 57);
+    color: rgb(255, 255, 255);
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+}
+
+html[data-color-mode="dark"] {
+    background-color: rgb(29, 43, 57);
+    color: rgb(255, 255, 255);
+}
+
+/* Reset and global styles */
+.c-hdHRLY {
+    list-style: none;
+}
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    unicode-bidi: isolate;
+}
+
+.c-bwDlsh {
+    all: unset;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    position: relative;
+    box-sizing: border-box;
+    z-index: 4;
+    background: unset;
+    list-style: none;
+    border-radius: 8px;
+}
+
+.c-bkOFjp {
+    align-items: center;
+    gap: 1rem;
+    margin: 0px;
+    z-index: 5;
+    transition: mask-position 250ms ease-out, mask-size 250ms ease-out;
+}
+
+.c-iekXrk {
+    font-family: '__sauce_f5be8f', '__sauce_Fallback_f5be8f', sans-serif;
+    font-weight: 400;
+    margin-left: 0.75rem;
+    margin-right: 0.75rem;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    text-transform: capitalize;
+    display: flex;
+    line-height: 20px;
+    font-size: 14px !important;
+    padding: 0.4rem 0rem 0.8rem !important;
+}
+
+.c-kkbLrT {
+    padding: 0.5rem 1rem;
+    outline: none;
+    user-select: none;
+    font-family: '__sauce_f5be8f', '__sauce_Fallback_f5be8f', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    transition: 0.2s;
+    display: block;
+    text-decoration: none;
+}
+
+/* Button styles */
+.c-gBrBnR {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: var(--fontSizes-sm);
+    font-family: '__sauce_f5be8f', '__sauce_Fallback_f5be8f', sans-serif;
+    letter-spacing: var(--letterSpacings-wide);
+    user-select: none;
+    font-weight: var(--fontWeights-medium) !important;
+    border-radius: 7px;
+    transition: 0.2s;
+    padding: 0.6rem 1.2rem;
+}
+
+button, input, optgroup, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.c-hLuime {
+    height: 26px;
+    width: 120px;
+}
+
+.c-iTkiSG {
+    font-size: var(--fontSizes-sm);
+    font-weight: var(--fontWeights-semi);
+    color: rgb(255, 88, 66);
+    white-space: nowrap;
+    letter-spacing: var(--letterSpacings-widest);
+}
+
+[data-color-mode="dark"] {
+    background-color: rgb(29, 43, 57);
+    color: rgb(255, 255, 255);
+}
