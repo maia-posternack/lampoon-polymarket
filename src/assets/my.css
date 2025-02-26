@@ -1,8 +1,29 @@
 /* Global Styles */
 @font-face {
-  font-family: 'Open Sauce Sans';
+  font-family: 'OpenSauceSans-Regular';
   src:  url('fonts/OpenSauceSans-Regular.ttf') format('truetype');
   font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'OpenSauceSans-Bold';
+  src:  url('fonts/OpenSauceSans-Bold.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'OpenSauceSans-SemiBold';
+  src:  url('fonts/OpenSauceSans-SemiBold.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'OpenSauceSans-Medium';
+  src:  url('fonts/OpenSauceSans-Medium.ttf') format('truetype');
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
@@ -11,7 +32,7 @@ html, body {
   box-sizing: border-box;
   color: rgb(255, 255, 255);
   display: block;
-  font-family: 'Open Sauce Sans', sans-serif !important;
+  font-family: 'OpenSauceSans-Regular', sans-serif !important;
   margin: 0;
   min-height: -webkit-fill-available;
   overscroll-behavior-x: none;
@@ -57,32 +78,29 @@ html, body {
 
 /* Navigation List */
 .nav-css ul {
-    display: flex;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    overflow: hidden; /* Items remove from the left on smaller screens */
-    white-space: nowrap; /* Prevents wrapping */
-    justify-content: flex-start !important;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  align-items: center; /* Ensure all items align perfectly */
+  gap: 0px !important; /* Force no extra spacing */
 }
 
 /* Navigation Items - Allow Dynamic Width */
 .nav-css li {
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    height: 42.1953px;
-    min-width: 50px; /* Ensures small text fits properly */
-    line-height: 20px;
-    list-style: none;
-    text-align: center;
-    padding: 6.4px 0px 12.8px 0px;
-    margin: 0px 12px 3px 0px; /* Keeps slight left margin */
-    outline: none;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    border-bottom: 3px solid rgba(0, 0, 0, 0); /* Invisible border until hover */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 50px;
+  height: 42px;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: normal !important;
+  white-space: nowrap !important;
+  flex-shrink: 0; /* Prevents auto-resizing */
 }
+
 
 /* Apply the same styles to all items like "Global Elections" */
 .nav-css li a {
@@ -94,7 +112,7 @@ html, body {
     color: rgb(252, 252, 252);
     cursor: pointer;
     display: flex;
-    font-family: 'Open Sauce Sans', sans-serif !important;
+    font-family: 'OpenSauceSans-Regular', sans-serif !important;
     font-size: 14px;
     font-weight: 400;
     height: 42.1953px;
@@ -102,7 +120,7 @@ html, body {
     text-align: center;
     text-decoration: none;
     text-transform: capitalize;
-    padding: 6.4px 0px 12.8px 0px;
+    padding: 6.4px 0px 12.8px 0px !important;
     text-size-adjust: 100%;
     user-select: none;
     transition: all 0.2s ease;
@@ -114,16 +132,49 @@ html, body {
     width: 110.914px !important;
 }
 
-/* Hover Effect - White Underline */
-.nav-css li:hover {
-    border-bottom: 3px solid white;
+.nav-css li a {
+  position: relative;
+  display: inline-block; /* Ensures it only takes as much space as the text */
+  text-decoration: none;
+  color: rgb(252, 252, 252);
+  padding-bottom: 2px; /* Spacing for the underline */
 }
+
+/* Underline Effect on Hover */
+.nav-css li a::after {
+  content: ""; 
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background-color: white; /* Change underline color if needed */
+  opacity: 0; /* Hide until hover */
+
+}
+.nav-css li a:hover::after {
+  opacity: 1; /* Instantly appears */
+}
+
+/* Expand the underline only on hover */
+.nav-css li a:hover::after {
+  width: 100%;
+}
+
 
 /* LIVE Indicator - Fix alignment */
 .nav-css .live-container {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    transform: translateY(-4px); /* Move it up */
+    font-size: 12px !important;
+    font-family: 'OpenSauceSans-SemiBold', sans-serif !important;
+    letter-spacing: 1.2px;
+    margin-left: 10px
+
+
+
 }
 
 /* Blinking Red Dot */
@@ -137,6 +188,8 @@ html, body {
     position: relative;
     top: -1px; /* Adjust alignment */
     animation: blink-red 1.9s infinite ease-out;
+    transform: translateY(1px); /* Move it down */
+
 }
 
 /* Blinking Animation */
@@ -149,3 +202,279 @@ html, body {
     }
 }
 
+.nav-css {
+  overflow-x: auto !important; /* Allow horizontal scrolling */
+  white-space: nowrap !important; /* Prevent wrapping */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+}
+
+/* Ensure the scrolling container (ul) doesn’t break */
+.nav-css ul {
+  display: flex;
+  flex-wrap: nowrap !important; /* Ensure items stay in one line */
+  overflow-x: auto !important; /* Enable scrolling */
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+}
+
+/* Hide scrollbar in WebKit browsers (Chrome, Safari, Edge) */
+.nav-css::-webkit-scrollbar,
+.nav-css ul::-webkit-scrollbar {
+    width: 0px !important;
+    height: 0px !important;
+    background: transparent !important;
+    display: none !important;
+}
+
+/* Hide scrollbar in Firefox */
+.nav-css,
+.nav-css ul {
+    scrollbar-width: none !important; /* Firefox */
+}
+
+/* Hide scrollbar in Edge & Internet Explorer */
+.nav-css,
+.nav-css ul {
+    -ms-overflow-style: none !important; /* Edge & IE */
+}
+
+.nav-css {
+  min-width: 100vw !important; /* Prevents it from getting smaller than the screen */
+}
+.nav-css ul {
+  cursor: grab;
+  user-select: none;
+}
+
+.nav-css ul:active {
+  cursor: grabbing;
+}
+
+.login {
+  align-items: center;
+  appearance: button;
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-color: rgba(0, 0, 0, 0);
+  background-image: none;
+  background-origin: padding-box;
+  background-position-x: 0%;
+  background-position-y: 0%;
+  background-repeat: repeat;
+  background-size: auto;
+  border-bottom-color: rgb(45, 156, 219);
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  border-bottom-style: none;
+  border-bottom-width: 0px;
+  border-image-outset: 0;
+  border-image-repeat: stretch;
+  border-image-slice: 100%;
+  border-image-source: none;
+  border-image-width: 1;
+  border-left-color: rgb(45, 156, 219);
+  border-left-style: none;
+  border-left-width: 0px;
+  border-right-color: rgb(45, 156, 219);
+  border-right-style: none;
+  border-right-width: 0px;
+  border-top-color: rgb(45, 156, 219);
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  border-top-style: none;
+  border-top-width: 0px;
+  box-sizing: border-box;
+  color: rgb(45, 156, 219);
+  cursor: default;
+  display: flex;
+  font-family: 'OpenSauceSans-Medium', sans-serif !important;
+  font-feature-settings: normal;
+  font-kerning: auto;
+  font-optical-sizing: auto;
+  font-size: 14px;
+  font-size-adjust: none;
+  font-stretch: 100%;
+  font-style: normal;
+  font-variant-alternates: normal;
+  font-variant-caps: normal;
+  font-variant-east-asian: normal;
+  font-variant-emoji: normal;
+  font-variant-ligatures: normal;
+  font-variant-numeric: normal;
+  font-variant-position: normal;
+  font-variation-settings: normal;
+  font-weight: 500;
+  height: 36px;
+  justify-content: center;
+  letter-spacing: 0.35px;
+  line-height: 16.1px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  overflow-x: visible;
+  overflow-y: visible;
+  padding-block-end: 9.6px;
+  padding-block-start: 9.6px;
+  padding-bottom: 9.6px;
+  padding-inline-end: 16px;
+  padding-inline-start: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 9.6px;
+  text-align: center;
+  text-indent: 0px;
+  text-rendering: auto;
+  text-shadow: none;
+  text-size-adjust: 100%;
+  text-transform: none;
+  text-wrap-mode: nowrap;
+  transition-behavior: normal;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: ease;
+  user-select: none;
+  white-space-collapse: collapse;
+  width: 75.2891px;
+  word-spacing: 0px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  color: rgb(45, 156, 219);
+  background-color: rgba(0, 0, 0, 0);
+  transition: all 0.2s ease-in-out;
+  margin-right: 10px !important; 
+
+
+}
+
+/* Hover Effect: Button turns white with light opacity */
+.login:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important; /* Light white */
+  color: rgb(45, 156, 219) !important; /* Keep text color the same */
+}
+.signup {
+  font-family: 'OpenSauceSans-Medium', sans-serif !important;
+  align-items: center;
+  appearance: button;
+  background-color: rgb(45, 156, 219);
+  border-bottom-color: rgb(255, 255, 255);
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  border-bottom-style: none;
+  border-bottom-width: 0px;
+  border-image-outset: 0;
+  border-image-repeat: stretch;
+  border-image-slice: 100%;
+  border-image-source: none;
+  border-image-width: 1;
+  border-left-color: rgb(255, 255, 255);
+  border-left-style: none;
+  border-left-width: 0px;
+  border-right-color: rgb(255, 255, 255);
+  border-right-style: none;
+  border-right-width: 0px;
+  border-top-color: rgb(255, 255, 255);
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  border-top-style: none;
+  border-top-width: 0px;
+  box-sizing: border-box;
+  color: rgb(255, 255, 255);
+  cursor: default;
+  display: flex;
+  font-feature-settings: normal;
+  font-kerning: auto;
+  font-optical-sizing: auto;
+  font-size: 14px;
+  font-size-adjust: none;
+  font-stretch: 100%;
+  font-style: normal;
+  font-variant-alternates: normal;
+  font-variant-caps: normal;
+  font-variant-east-asian: normal;
+  font-variant-emoji: normal;
+  font-variant-ligatures: normal;
+  font-variant-numeric: normal;
+  font-variant-position: normal;
+  font-variation-settings: normal;
+  font-weight: 500;
+  height: 36px;
+  justify-content: center;
+  letter-spacing: 0.35px;
+  line-height: 16.1px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  overflow-x: visible;
+  overflow-y: visible;
+  padding-block-end: 9.6px;
+  padding-block-start: 9.6px;
+  padding-bottom: 9.6px;
+  padding-inline-end: 16px;
+  padding-inline-start: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 9.6px;
+  text-align: center;
+  text-indent: 0px;
+  text-rendering: auto;
+  text-shadow: none;
+  text-size-adjust: 100%;
+  text-transform: none;
+  text-wrap-mode: nowrap;
+  transition-behavior: normal;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: ease;
+  user-select: none;
+  white-space-collapse: collapse;
+  width: 87.5703px;
+  word-spacing: 0px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-border-image: none;
+}
+.signup:hover {
+  opacity: 0.9 !important; /* Reduce opacity by 0.1 */
+
+}
+
+body {
+  padding: 20px !important; /* Adds 20px margin around everything */
+}
+.nav-css {
+  position: relative;
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+  -webkit-overflow-scrolling: touch;
+  mask-image: linear-gradient(to right, black 90%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(to right, black 90%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* Creates the ultra-thin low-opacity line */
+.nav-css::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px; /* Very thin */
+  background-color: rgba(255, 255, 255, .2); /* Low opacity white */
+  pointer-events: none; /* Prevents interaction */
+}
+
+.custom-link {
+  display: inline-block;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.custom-logo {
+  width: 200px;  /* Increased size */
+  height: auto;
+  fill: white; /* Changed color to white */
+  transition: opacity 0.3s ease-in-out;
+}
+
+.custom-link:hover .custom-logo {
+  opacity: 0.6; /* Lower opacity on hover */
+}

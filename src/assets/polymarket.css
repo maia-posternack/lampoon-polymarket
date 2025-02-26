@@ -181,3 +181,38 @@ button, input, optgroup, select, textarea {
     background-color: rgb(29, 43, 57);
     color: rgb(255, 255, 255);
 }
+
+.c-gBrBnR-ikLDqfK-css {
+    color: var(--colors-polyBlue);
+    white-space: nowrap;
+    height: 36px !important;
+    padding-left: var(--space-4) !important;
+    padding-right: var(--space-4) !important;
+}
+.c-gBrBnR-gFoOfa-cv {
+    color: black;
+    background: transparent;
+    border: none;
+}
+.c-gBrBnR-bxvuTL-fontWeight-medium {
+    font-family: var(--fonts-sauce);
+    font-weight: 500;
+}
+.c-gBrBnR-dRRWyf-fontSize-md {
+    font-size: var(--fontSizes-md) !important;
+}
+.c-gBrBnR {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: none;
+    border-radius: 7px;
+    transition: 0.2s;
+    padding: 0.6rem 1.2rem;
+    font-size: var(--fontSizes-sm);
+    font-family: var(--fonts-sauce);
+    letter-spacing: var(--letterSpacings-wide);
+    user-select: none;
+    font-weight: var(--fontWeights-medium) !important;
+}
