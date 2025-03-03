@@ -18,18 +18,14 @@
 }
 
 .c-kSQJAJ {
-    position: relative;
+    padding-left: 2px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 60px;
-    padding-left: var(--space-4);
-    padding-right: var(--space-4);
     text-align: center;
-    transition: top 0.2s;
     z-index: 5;
-    padding-top: 0px;
 }
 
 .c-dhzjXW {
@@ -37,7 +33,6 @@
 }
 
 .c-fQxlvL {
-    position: sticky;
     display: flex;
     top: 0px;
     left: 0px;
@@ -45,13 +40,10 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 0px;
     text-align: center;
     box-shadow: var(--shadows-dropShadowMdLight);
     border-bottom: 1px solid var(--colors-borderLight);
     z-index: 5;
-    transition: top 0.2s;
-    overscroll-behavior: none;
 }
 
 * {
@@ -96,7 +88,6 @@ li {
 
 .c-bwDlsh {
     all: unset;
-    display: flex;
     align-items: center;
     height: 100%;
     position: relative;

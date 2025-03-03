@@ -55,12 +55,6 @@ body {
   min-height: -webkit-fill-available;
 }
 
-/* Remove unwanted margins for consistency */
-body, h1, h2, h3, h4, h5, h6, p, ul, ol, li {
-  margin: 0;
-  padding: 0;
-}
-
 /* Optional: Prevent horizontal scrolling */
 html, body {
   overflow-x: hidden;
@@ -73,7 +67,6 @@ html, body {
     width: 100% !important;
     flex-wrap: nowrap !important;
     position: relative !important;
-    padding-left: 12px; /* Small left margin */
 }
 
 /* Navigation List */
@@ -127,10 +120,6 @@ html, body {
     width: auto; /* Allows dynamic width */
 }
 
-/* Fix Global Elections width */
-.nav-css li[data-item="global-elections"] {
-    width: 110.914px !important;
-}
 
 .nav-css li a {
   position: relative;
@@ -171,9 +160,7 @@ html, body {
     font-size: 12px !important;
     font-family: 'OpenSauceSans-SemiBold', sans-serif !important;
     letter-spacing: 1.2px;
-    margin-left: 10px
-
-
+    
 
 }
 
@@ -439,8 +426,11 @@ html, body {
 
 }
 
-body {
-  padding: 20px !important; /* Adds 20px margin around everything */
+nav {
+  padding-left: 20px !important; /* Adds 20px margin around everything */
+  padding-right: 20px !important; /* Adds 20px margin around everything */
+
+  padding-top: 0 !important; /* Removes top padding */
 }
 .nav-css {
   position: relative;
@@ -452,29 +442,41 @@ body {
 }
 
 /* Creates the ultra-thin low-opacity line */
-.nav-css::after {
+#__pm_mobile_top_nav {
+  position: relative; /* Ensure it's a positioned parent */
+}
+
+/* Bottom Line: Touches the edges of the screen */
+#__pm_mobile_top_nav::after {
   content: "";
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  left: -20px;
+  width: 120%; /* Stretches across entire navbar */
   height: 1px; /* Very thin */
-  background-color: rgba(255, 255, 255, .2); /* Low opacity white */
+  background-color: rgba(255, 255, 255, 0.2); /* Low opacity white */
   pointer-events: none; /* Prevents interaction */
 }
 
+
 .custom-link {
+  font-size: 1.5em; /* Increase text size */
   display: inline-block;
-  transition: opacity 0.3s ease-in-out;
+  padding: 2px; /* Add padding for a larger clickable area */
+  color: white !important; /* Ensure the text is white */
+  text-decoration: none; /* Remove underline */
 }
 
 .custom-logo {
-  width: 200px;  /* Increased size */
-  height: auto;
-  fill: white; /* Changed color to white */
-  transition: opacity 0.3s ease-in-out;
+  width: 130px !important; /* Increase the width */
+  height: auto !important; /* Maintain aspect ratio */
+  fill: white !important; /* Change logo color to white */
 }
 
 .custom-link:hover .custom-logo {
   opacity: 0.6; /* Lower opacity on hover */
+}
+
+.sticky {
+  position: fixed !important;
 }
