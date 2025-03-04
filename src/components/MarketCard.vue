@@ -499,7 +499,6 @@ export default {
   color: rgb(255, 255, 255); /* Text turns white on hover */
 }
 .poster-info {
-  transform: translateY(7px);
   align-items: center;
   background-color: rgba(45, 156, 219, 0.2);
   border-bottom-color: rgba(0, 0, 0, 0);
