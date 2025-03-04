@@ -54,9 +54,11 @@ const markets = [
 
 <style scoped>
 .market-card-container {
+  margin-top: 5px;
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Default: 3 cards per row */
-  gap: 16px; /* Adds spacing between cards */
+  column-gap: 16px; /* Spacing between columns (side-by-side cards) */
+  row-gap: 0px; /* Reduced spacing between rows (top-to-bottom) */
   width: 100%;
 }
 
@@ -64,6 +66,9 @@ const markets = [
 @media (max-width: 1000px) {
   .market-card-container {
     grid-template-columns: 1fr; /* 1 card per row */
+    column-gap: 0px; /* No side spacing needed for single-column layout */
+    row-gap: 0px; /* Keep reduced row spacing */
   }
 }
+
 </style>

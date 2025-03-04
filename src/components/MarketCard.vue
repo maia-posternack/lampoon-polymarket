@@ -123,8 +123,8 @@ export default {
 }
 
 .card {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 4px;
+  margin-bottom: 4px;
   padding: 5px;
   width: 100%;
   background-color: rgb(44, 63, 79);
