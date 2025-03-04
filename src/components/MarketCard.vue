@@ -376,7 +376,7 @@ export default {
 }
 .buy-button-container {
   display: flex;
-  transform: translateY(-30px); /* Moves it up by 10px */
+  transform: translateY(-35px); /* Moves it up by 10px */
   gap: 8px; /* Keeps a small gap between buttons */
   width: 100%; /* Makes sure it fills the available space */
 }
