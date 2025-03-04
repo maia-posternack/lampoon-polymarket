@@ -3,9 +3,9 @@
     
     <!-- BUYING UI TAKES OVER THE ENTIRE CARD -->
     <div v-if="isBuying" class="buying-container">
-      <div class="buying-header">
-        <div class="buying-image-container">
-          <img :src="image" :alt="title" class="buying-image" />
+      <div class="card-header">
+        <div class="image-container">
+          <img :src="image" :alt="title" class="card-image" />
         </div>
         <div class="buying-title">
           <a :href="link" class="card-title">{{ title }}</a>
@@ -13,20 +13,29 @@
         </div>
       </div>
 
-      <div class="buying-input-container">
-        <input type="number" v-model="betAmount" placeholder="$0" class="bet-input" />
-        <div class="quick-buttons">
-          <button @click="addAmount(1)">+1</button>
-          <button @click="addAmount(10)">+10</button>
-        </div>
-      </div>
+      <div class="card-edit-body"> 
+      <div class="input-and-slider"> 
+  <div class="buying-input-container">
+    $
+    <input type="number" v-model="betAmount" placeholder="0" class="bet-input" />
+  </div>
+
+  <!-- SLIDER CONTROL -->
+  <div class="bet-slider">
+    <input type="range" v-model="betAmount" min="0" max="100" step="1" class="slider">
+  </div>
+</div>
+
 
       <div class="buying-actions">
         <button class="buy-confirm" @click="confirmPurchase">
-          Buy Yes - To win {{ potentialWin }}
-        </button>
+        <span class="confirm-text">Buy Yes</span>
+        <span class="win-text">To win {{ potentialWin }}</span>
+      </button>
+
       </div>
     </div>
+  </div>
 
     <!-- ORIGINAL CARD ONLY SHOWS IF NOT BUYING -->
     <div v-else>
@@ -103,8 +112,13 @@ import { ref, computed } from "vue";
 const isBuying = ref(false);
 const betAmount = ref(10);
 
+const updateBetFromSlider = (event) => {
+  betAmount.value = parseInt(event.target.value, 10); // Ensures it's a valid number
+};
+
 const potentialWin = computed(() => {
-  return `$${(betAmount.value * 4.76).toFixed(2)}`;
+  const decimalOdds = 1 / this.odds; // Convert odds to decimal format
+  return `$${(this.betAmount * decimalOdds).toFixed(2)}`;
 });
 
 const addAmount = (amount) => {
@@ -133,7 +147,9 @@ export default {
   },
   computed: {
     potentialWin() {
-      return `$${(this.betAmount * 4.76).toFixed(2)}`;
+      const decimalOdds = 1 / (this.odds/100); // Convert odds to decimal format
+      console.log(decimalOdds, this.odds);
+  return `$${(this.betAmount * decimalOdds).toFixed(2)}`;
     },
     oddsPath() {
       const percentage = 1 - this.odds / 100;
@@ -179,6 +195,207 @@ export default {
   font-style: normal;
   font-display: swap;
 }
+.input-and-slider{
+  transform: translateY(10px);
+ 
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between input and slider */
+  width: 100%;
+}
+.card-edit-body{
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+
+}
+.buy-confirm {
+  transform: translateY(20px); /* Moves it down by 10px */;
+  background-color: rgb(39, 174, 96);
+  color: rgb(255, 255, 255);
+  width: 100%; /* Makes it take the full width */
+  padding: 8px 1px;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px !important;
+  font-family: OpenSauceSans-Medium !important;
+  display: flex;
+  flex-direction: column; /* Stacks text on separate rows */
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+.buy-confirm:hover {
+  opacity: 0.85; /* Slightly less opaque */
+}
+/* Ensures stacked text alignment */
+.confirm-text {
+  font-size: 14px;
+}
+
+.win-text {
+  font-size: 11px;
+  opacity: 0.8; /* Slightly faded for clarity */
+}
+
+
+.bet-slider {
+  flex-grow: 1;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: rgb(52, 68, 82);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Style the slider thumb */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.bet-input {
+  background-color: rgb(29, 43, 57); /* Matches .buying-input-container */
+  color: white;
+  border: none;
+  outline: none;
+  padding: 8px 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  -moz-appearance: textfield; /* Removes arrows in Firefox */
+}
+
+/* Removes up/down arrows in Chrome, Safari, Edge, Opera */
+.bet-input::-webkit-outer-spin-button,
+.bet-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Ensures arrows are gone in Firefox */
+.bet-input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+
+.buying-input-container {
+  align-items: center;
+  align-self: center;
+  appearance: auto;
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-color: rgb(29, 43, 57);
+  background-image: none;
+  background-origin: padding-box;
+  background-position-x: 0%;
+  background-position-y: 0%;
+  background-repeat: repeat;
+  background-size: auto;
+  border-bottom-color: rgb(52, 68, 82);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-image-outset: 0;
+  border-image-repeat: stretch;
+  border-image-slice: 100%;
+  border-image-source: none;
+  border-image-width: 1;
+  border-left-color: rgb(52, 68, 82);
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-right-color: rgb(52, 68, 82);
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-top-color: rgb(52, 68, 82);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  box-sizing: border-box;
+  color: rgb(255, 255, 255);
+  cursor: text;
+  direction: ltr;
+  display: flex;
+  flex-basis: 0%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  font-size: 14px;
+  font-size-adjust: none;
+  font-stretch: 100%;
+  font-style: normal;
+  font-variant-alternates: normal;
+  font-variant-caps: normal;
+  font-variant-east-asian: normal;
+  font-variant-emoji: normal;
+  font-variant-ligatures: normal;
+  font-variant-numeric: normal;
+  font-variant-position: normal;
+  font-variation-settings: normal;
+  font-weight: 400;
+  height: 40px;
+  justify-content: flex-start;
+  letter-spacing: normal;
+  line-height: 16.1px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  outline-color: rgb(255, 255, 255);
+  outline-style: none;
+  outline-width: 0px;
+  overflow-clip-margin: 0px;
+  overflow-x: clip;
+  overflow-y: clip;
+  padding-block-end: 16px;
+  padding-block-start: 16px;
+  padding-bottom: 16px;
+  padding-inline-end: 10px;
+  padding-inline-start: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 16px;
+  text-align: left;
+  text-indent: 0px;
+  text-rendering: auto;
+  text-shadow: none;
+  text-size-adjust: 100%;
+  text-transform: none;
+  transition-behavior: normal;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: ease;
+  user-select: none;
+  width: 70%; /* Increase input size */
+  flex-grow: 2; /* Makes input take more space */
+  word-spacing: 0px;
+  -webkit-rtl-ordering: logical;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-border-image: none;
+}
+
 
 .card {
   margin-top: 4px;
@@ -618,68 +835,22 @@ export default {
 .poster-info p,
 .poster-info span {
   margin-left: -5px; /* Moves text 5px to the left */
-}.buying-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
 }
-
-.buying-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.buying-image-container {
-  width: 32px;
-  height: 32px;
-}
-
-.buying-title {
-  flex-grow: 1;
-  text-align: left;
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
-}
-
 .close-button {
-  cursor: pointer;
-  font-size: 20px;
-  color: white;
-}
-
-.buying-input-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.bet-input {
-  width: 60px;
-  padding: 5px;
-  font-size: 14px;
-  text-align: center;
-}
-
-.quick-buttons button {
-  padding: 5px 10px;
+  position: absolute;
+  top: 0px; /* Move to the top */
+  right: 8px; /* Move to the right */
+  font-size: 16px; /* Make it smaller */
+  color: white; /* Make it white */
+  background: none;
   border: none;
   cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  font-weight: bold;
+  z-index: 20; /* Ensure it appears on top */
 }
 
-.buying-actions {
-  margin-top: 10px;
-}
 
-.buy-confirm {
-  background-color: #27ae60;
-  color: white;
-  padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-}
 
 </style>
