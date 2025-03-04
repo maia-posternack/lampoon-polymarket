@@ -1,7 +1,10 @@
 <template data-color-mode="dark">
   <Navbar />
+    <div class="content">
     <MarketList />
-  <Footer />
+    <Footer />
+
+    </div>
 </template>
 
 <script setup>

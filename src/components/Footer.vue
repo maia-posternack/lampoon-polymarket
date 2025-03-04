@@ -46,8 +46,9 @@ export default {
 }
 
 .footer-container {
-  background-color: rgb(29, 43, 57);
+  background-color: rgb(29, 43, 57) !important;
   border-top-color: rgb(66, 84, 100);
+  opacity: 1 !important;
   border-top-style: solid;
   border-top-width: 1px;
   box-sizing: border-box;
@@ -68,7 +69,10 @@ export default {
   position: fixed;
   bottom: 0;
   left: 0;
+  z-index: 9999; /* Keeps it above all other elements */
+  pointer-events: auto; /* Ensures interactivity */
 }
+
 .footer-menu {
   display: flex;
   width: 100%;

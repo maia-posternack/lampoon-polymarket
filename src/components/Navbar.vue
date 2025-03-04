@@ -45,3 +45,31 @@
 
     </nav>
   </template>
+  <style>
+/* Ensure links are properly positioned */
+.nav-css li a {
+  position: relative; /* Needed for ::after positioning */
+  display: inline-block; /* Prevents full-width behavior */
+  text-decoration: none; /* Removes default underline */
+  color: rgb(252, 252, 252);
+}
+
+/* Default: Hidden underline */
+.nav-css li ::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0px; /* Position it just below the text */
+  width: 100%; /* Ensure it spans full width */
+  height: 8px;
+  background-color: white;
+  opacity: 0;
+}
+
+/* Hover Effect: Show the underline */
+.nav-css li a:hover::after,.nav-css li a:hover::after
+{
+  opacity: 1;
+}
+
+</style>
