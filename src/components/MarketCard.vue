@@ -2,14 +2,14 @@
   <div class="card" :class="{ 'buying-mode': isBuying }">
     
     <!-- BUYING UI TAKES OVER THE ENTIRE CARD -->
-    <div v-if="isBuying" class="buying-container">
+    <div v-if="isBuyingYes || isBuyingNo" class="buying-container">
       <div class="card-header">
         <div class="image-container">
           <img :src="image" :alt="title" class="card-image" />
         </div>
         <div class="buying-title">
           <a :href="link" class="card-title">{{ title }}</a>
-          <div class="close-button" @click="isBuying = false">✕</div>
+          <div class="close-button" @click="closeBuying">✕</div>
         </div>
       </div>
 
@@ -28,10 +28,15 @@
 
 
       <div class="buying-actions">
-        <button class="buy-confirm" @click="confirmPurchase">
-        <span class="confirm-text">Buy Yes</span>
-        <span class="win-text">To win {{ potentialWin }}</span>
-      </button>
+        <button v-if="isBuyingYes" class="buy-confirm buy-yes-btn" @click="confirmPurchase('yes')">
+  <span class="confirm-text">Buy Yes</span>
+  <span class="win-text">To win {{ potentialWinYes }}</span>
+</button>
+
+<button v-if="isBuyingNo" class="buy-confirm buy-no-btn" @click="confirmPurchase('no')">
+  <span class="confirm-text">Buy No</span>
+  <span class="win-text">To win {{ potentialWinNo }}</span>
+</button>
 
       </div>
     </div>
@@ -62,7 +67,7 @@
 
       <div class="card-footer">
         <div class="buy-button-container">
-          <button class="buy-button buy-yes" @click="isBuying = true">
+          <button class="buy-button buy-yes" @click="startBuying('yes')">
             <div class="buy-button-content">
               <span>Buy Yes</span>
               <div class="buy-button-icons">
@@ -79,7 +84,7 @@
             </div>
           </button>
 
-          <button class="buy-button buy-no">
+          <button class="buy-button buy-no" @click="startBuying('no')">
             <div class="buy-button-content">
               <span>Buy No</span>
               <div class="buy-button-icons">
@@ -109,26 +114,28 @@
 <script>
 import { ref, computed } from "vue";
 
-const isBuying = ref(false);
+const isBuyingYes = ref(false);
+const isBuyingNo = ref(false);
 const betAmount = ref(10);
 
 const updateBetFromSlider = (event) => {
   betAmount.value = parseInt(event.target.value, 10); // Ensures it's a valid number
 };
 
-const potentialWin = computed(() => {
-  const decimalOdds = 1 / this.odds; // Convert odds to decimal format
-  return `$${(this.betAmount * decimalOdds).toFixed(2)}`;
-});
-
 const addAmount = (amount) => {
   betAmount.value += amount;
 };
 
-const confirmPurchase = () => {
-  console.log("Purchase confirmed: ", betAmount.value);
-  isBuying.value = false;
+const confirmPurchase = (type) => {
+  if (type === "yes") {
+    console.log("Buy Yes confirmed: ", betAmount.value);
+    isBuyingYes.value = false;
+  } else if (type === "no") {
+    console.log("Buy No confirmed: ", betAmount.value);
+    isBuyingNo.value = false;
+  }
 };
+
 
 export default {
   props: {
@@ -141,16 +148,21 @@ export default {
   },
   data() {
     return {
-      isBuying: false, // Now correctly reactive
-      betAmount: 10
+      isBuyingYes: false, // Tracks Buy Yes state
+    isBuyingNo: false,  // Tracks Buy No state
+    betAmount: 10
     };
   },
   computed: {
-    potentialWin() {
-      const decimalOdds = 1 / (this.odds/100); // Convert odds to decimal format
-      console.log(decimalOdds, this.odds);
-  return `$${(this.betAmount * decimalOdds).toFixed(2)}`;
-    },
+  potentialWinYes() {
+    const decimalOdds = 1 / (this.odds / 100); // Buy Yes odds
+    return `$${(this.betAmount * decimalOdds).toFixed(2)}`;
+  },
+  potentialWinNo() {
+    const decimalOdds = 1 / ((1 - this.odds/100)); // Buy No odds
+    return `$${(this.betAmount * decimalOdds).toFixed(2)}`;
+  },
+
     oddsPath() {
       const percentage = 1 - this.odds / 100;
       const angle = percentage * 180;
@@ -160,14 +172,37 @@ export default {
     }
   },
   methods: {
-    addAmount(amount) {
-      this.betAmount += amount;
-    },
-    confirmPurchase() {
-      console.log("Purchase confirmed:", this.betAmount);
-      this.isBuying = false;
+  addAmount(amount) {
+    this.betAmount += amount;
+  },
+  startBuying(type) {
+    if (type === "yes") {
+      this.isBuyingYes = true;
+      this.isBuyingNo = false;
+      console.log("buying yes")
+    } else {
+      this.isBuyingNo = true;
+      this.isBuyingYes = false;
+      console.log("buying no")
+
     }
+  },
+  confirmPurchase(type) {
+    if (type === "yes") {
+      console.log("Buy Yes confirmed: ", this.betAmount);
+      this.isBuyingYes = false;
+    } else if (type === "no") {
+      console.log("Buy No confirmed: ", this.betAmount);
+      this.isBuyingNo = false;
+    }
+  },
+  closeBuying() {
+    this.isBuyingYes = false;
+    this.isBuyingNo = false;
+    console.log("Closing buying UI");
   }
+}
+
 };
 
  
@@ -225,6 +260,24 @@ export default {
   justify-content: center;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
+.buy-yes-btn {
+  background-color: rgb(39, 174, 96);
+  color: rgb(255, 255, 255);
+}
+
+.buy-yes-btn:hover {
+  opacity: 0.85;
+}
+
+.buy-no-btn {
+  background-color: rgb(230, 72, 0); /* Red color for Buy No */
+  color: rgb(255, 255, 255);
+}
+
+.buy-no-btn:hover {
+  opacity: 0.85;
+}
+
 .buy-confirm:hover {
   opacity: 0.85; /* Slightly less opaque */
 }

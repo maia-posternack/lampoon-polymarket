@@ -28,17 +28,12 @@
           </div>
         </li>
         <li class="c-hdHRLY"><a href="/market/all" class="c-kkbLrT c-iekXrk">All</a></li>
-        <li class="c-hdHRLY"><a href="/market/new" class="c-kkbLrT c-iekXrk">New</a></li>
-        <li class="c-hdHRLY"><a href="/market/politics" class="c-kkbLrT c-iekXrk">Politics</a></li>
+        <li class="c-hdHRLY"><a href="/market/lampoon" class="c-kkbLrT c-iekXrk">Lampoon</a></li>
+        <li class="c-hdHRLY"><a href="/market/crimson" class="c-kkbLrT c-iekXrk">Crimson</a></li>
+        <li class="c-hdHRLY"><a href="/market/final-clubs" class="c-kkbLrT c-iekXrk">Final Clubs</a></li>
         <li class="c-hdHRLY"><a href="/market/sports" class="c-kkbLrT c-iekXrk">Sports</a></li>
-        <li class="c-hdHRLY"><a href="/market/crypto" class="c-kkbLrT c-iekXrk">Crypto</a></li>
-        <li class="c-hdHRLY"><a href="/market/trump" class="c-kkbLrT c-iekXrk">Trump</a></li>
-        <li class="c-hdHRLY"><a href="/market/global-elections" class="c-kkbLrT c-iekXrk">Global Elections</a></li>
-        <li class="c-hdHRLY"><a href="/market/elon-tweets" class="c-kkbLrT c-iekXrk">Elon Tweets</a></li>
-        <li class="c-hdHRLY"><a href="/market/mentions" class="c-kkbLrT c-iekXrk">Mentions</a></li>
-        <li class="c-hdHRLY"><a href="/market/creators" class="c-kkbLrT c-iekXrk">Creators</a></li>
-        <li class="c-hdHRLY"><a href="/market/pop-culture" class="c-kkbLrT c-iekXrk">Pop Culture</a></li>
-        <li class="c-hdHRLY"><a href="/market/business" class="c-kkbLrT c-iekXrk">Business</a></li>
+        <li class="c-hdHRLY"><a href="/market/admin" class="c-kkbLrT c-iekXrk">Admin</a></li>
+        <li class="c-hdHRLY"><a href="/market/other" class="c-kkbLrT c-iekXrk">Other</a></li>
       </ul>
     </nav>
   </div>
