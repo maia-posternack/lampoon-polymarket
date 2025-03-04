@@ -19,35 +19,35 @@ import MarketCard from "./MarketCard.vue";
 const markets = [
   {
     image: "https://polymarket.com/_next/image?url=https%3A%2F%2Fpolymarket-upload.s3.us-east-2.amazonaws.com%2Ftrump-wins-ends-ukraine-war-in-90-days-V1Cr3I7aFmnD.jpg&w=96&q=75",
-    title: "Trump ends Ukraine war in first 90 days",
+    title: "example 1 this will probobly happen",
     link: "/market",
     odds: "80",
     posterImage: "https://polymarket.com/_next/image?url=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F72647502%2Ftyler_400x400.jpg&w=96&q=75",
-    posterName: "gnaialf,a,a,ll,flala",
+    posterName: "username1",
   },
   {
     image: "https://polymarket.com/_next/image?url=https%3A%2F%2Fpolymarket-upload.s3.us-east-2.amazonaws.com%2Ftrump-wins-ends-ukraine-war-in-90-days-V1Cr3I7aFmnD.jpg&w=96&q=75",
-    title: "Trump ends Ukraine war in first 90 days",
+    title: "example 2",
     link: "/market",
     odds: "27",
     posterImage: "https://polymarket.com/_next/image?url=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F72647502%2Ftyler_400x400.jpg&w=96&q=75",
-    posterName: "zerohedge",
+    posterName: "username2",
   },
   {
     image: "https://polymarket.com/_next/image?url=https%3A%2F%2Fpolymarket-upload.s3.us-east-2.amazonaws.com%2Ftrump-wins-ends-ukraine-war-in-90-days-V1Cr3I7aFmnD.jpg&w=96&q=75",
-    title: "Trump ends Ukraine war in first 90 days",
+    title: "example 3",
     link: "/market",
-    odds: "21",
+    odds: "55",
     posterImage: "https://polymarket.com/_next/image?url=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F72647502%2Ftyler_400x400.jpg&w=96&q=75",
-    posterName: "zerohedge",
+    posterName: "superlongusernamehere",
   },
   {
     image: "https://polymarket.com/_next/image?url=https%3A%2F%2Fpolymarket-upload.s3.us-east-2.amazonaws.com%2Ftrump-wins-ends-ukraine-war-in-90-days-V1Cr3I7aFmnD.jpg&w=96&q=75",
-    title: "Trump ends Ukraine war in first 90 days",
+    title: "example 4 super duper unlikely but u should bet anyway",
     link: "/market",
     odds: "21",
     posterImage: "https://polymarket.com/_next/image?url=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F72647502%2Ftyler_400x400.jpg&w=96&q=75",
-    posterName: "zerohedge",
+    posterName: "himynameismaia",
   }
 ];
 </script>
