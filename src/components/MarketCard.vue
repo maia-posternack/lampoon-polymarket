@@ -1,75 +1,121 @@
 <template>
-  <div class="card">
-    <div class="card-header">
-      <div class="image-container">
-        <img :src="image" :alt="title" class="card-image" />
+  <div class="card" :class="{ 'buying-mode': isBuying }">
+    
+    <!-- BUYING UI TAKES OVER THE ENTIRE CARD -->
+    <div v-if="isBuying" class="buying-container">
+      <div class="buying-header">
+        <div class="buying-image-container">
+          <img :src="image" :alt="title" class="buying-image" />
+        </div>
+        <div class="buying-title">
+          <a :href="link" class="card-title">{{ title }}</a>
+          <div class="close-button" @click="isBuying = false">✕</div>
+        </div>
       </div>
-      <div class="card-content">
-        <a :href="link" class="card-title">{{ title }}</a>
-        <div class="odds-container">
-          <svg class="odds-graphic" width="58" height="29" viewBox="-29 -29 58 29">
-            <path d="M -29.001 0 A 29 29 0 1 1 29 0" fill="none" stroke="#858D92" stroke-width="4"></path>
-            <path :d="oddsPath" fill="none" 
-      :stroke="odds < 50 ? '#E64800' : '#27ae60'"
-      stroke-opacity="0.8155" stroke-width="4">
-</path>          </svg>
-          <div class="odds-text">
-            <p>{{ odds }}%</p>
-            <p>chance</p>
+
+      <div class="buying-input-container">
+        <input type="number" v-model="betAmount" placeholder="$0" class="bet-input" />
+        <div class="quick-buttons">
+          <button @click="addAmount(1)">+1</button>
+          <button @click="addAmount(10)">+10</button>
+        </div>
+      </div>
+
+      <div class="buying-actions">
+        <button class="buy-confirm" @click="confirmPurchase">
+          Buy Yes - To win {{ potentialWin }}
+        </button>
+      </div>
+    </div>
+
+    <!-- ORIGINAL CARD ONLY SHOWS IF NOT BUYING -->
+    <div v-else>
+      <div class="card-header">
+        <div class="image-container">
+          <img :src="image" :alt="title" class="card-image" />
+        </div>
+        <div class="card-content">
+          <a :href="link" class="card-title">{{ title }}</a>
+          <div class="odds-container">
+            <svg class="odds-graphic" width="58" height="29" viewBox="-29 -29 58 29">
+              <path d="M -29.001 0 A 29 29 0 1 1 29 0" fill="none" stroke="#858D92" stroke-width="4"></path>
+              <path :d="oddsPath" fill="none" :stroke="odds < 50 ? '#E64800' : '#27ae60'"
+                stroke-opacity="0.8155" stroke-width="4">
+              </path>
+            </svg>
+            <div class="odds-text">
+              <p>{{ odds }}%</p>
+              <p>chance</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="card-footer">
-  <div class="buy-button-container">
-  <button class="buy-button buy-yes">
-    <div class="buy-button-content">
-      <span>Buy Yes</span>
-      <div class="buy-button-icons">
-        <div class="arrow-icon">
-          <div class="arrow-icon">
-            <svg stroke="currentColor" fill="currentColor" stroke-width="0" 
-              viewBox="0 0 24 24" height="18px" width="18px" xmlns="http://www.w3.org/2000/svg">
-            <!-- Top Arrow -->
-            <path d="M6 12L12 6L18 12L16.5 13.5L12 9L7.5 13.5Z"></path>
-            <!-- Bottom Arrow (Moved further down) -->
-            <path d="M6 18L12 12L18 18L16.5 19.5L12 15L7.5 19.5Z"></path>
-          </svg>
+
+      <div class="card-footer">
+        <div class="buy-button-container">
+          <button class="buy-button buy-yes" @click="isBuying = true">
+            <div class="buy-button-content">
+              <span>Buy Yes</span>
+              <div class="buy-button-icons">
+                <div class="arrow-icon">
+                  <div class="arrow-icon">
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                      height="18px" width="18px" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 12L12 6L18 12L16.5 13.5L12 9L7.5 13.5Z"></path>
+                      <path d="M6 18L12 12L18 18L16.5 19.5L12 15L7.5 19.5Z"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </button>
+
+          <button class="buy-button buy-no">
+            <div class="buy-button-content">
+              <span>Buy No</span>
+              <div class="buy-button-icons">
+                <span class="arrow-icon">
+                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                    height="18px" width="18px" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 6L12 12L18 6L16.5 4.5L12 9L7.5 4.5Z"></path>
+                    <path d="M6 12L12 18L18 12L16.5 10.5L12 15L7.5 10.5Z"></path>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <div class="poster-info">
+          <img :src="posterImage" :alt="posterName" class="poster-image" />
+          <p>{{ posterName }}</p>
         </div>
       </div>
-       </div>
     </div>
-  </button>
-  
-  <button class="buy-button buy-no">
-    <div class="buy-button-content">
-      <span>Buy No</span>
-      <div class="buy-button-icons">
-        <span class="arrow-icon">
-          <svg stroke="currentColor" fill="currentColor" stroke-width="0" 
-              viewBox="0 0 24 24" height="18px" width="18px" xmlns="http://www.w3.org/2000/svg">
-            <!-- Top Arrow (Moved further up) -->
-            <path d="M6 6L12 12L18 6L16.5 4.5L12 9L7.5 4.5Z"></path>
-            <!-- Bottom Arrow -->
-            <path d="M6 12L12 18L18 12L16.5 10.5L12 15L7.5 10.5Z"></path>
-          </svg>
 
-
-        </span>
-      </div>
-    </div>
-  </button>
-</div>
-
-      <div class="poster-info">
-        <img :src="posterImage" :alt="posterName" class="poster-image" />
-        <p>{{ posterName }}</p>
-      </div>
-    </div>
   </div>
 </template>
 
+
 <script>
+import { ref, computed } from "vue";
+
+const isBuying = ref(false);
+const betAmount = ref(10);
+
+const potentialWin = computed(() => {
+  return `$${(betAmount.value * 4.76).toFixed(2)}`;
+});
+
+const addAmount = (amount) => {
+  betAmount.value += amount;
+};
+
+const confirmPurchase = () => {
+  console.log("Purchase confirmed: ", betAmount.value);
+  isBuying.value = false;
+};
+
 export default {
   props: {
     image: String,
@@ -77,46 +123,58 @@ export default {
     link: String,
     odds: Number,
     posterImage: String,
-    posterName: String
+    posterName: String,
+  },
+  data() {
+    return {
+      isBuying: false, // Now correctly reactive
+      betAmount: 10
+    };
   },
   computed: {
+    potentialWin() {
+      return `$${(this.betAmount * 4.76).toFixed(2)}`;
+    },
     oddsPath() {
-  const percentage = 1 - this.odds / 100; // Invert the percentage
-  const angle = percentage * 180; // Convert to an angle (0 to 180 degrees)
-  
-  // Calculate correct end coordinates
-  const x = 29 * Math.cos((angle * Math.PI) / 180);
-  const y = -29 * Math.sin((angle * Math.PI) / 180);
-  
-  return `M -29 0 A 29 29 0 0 1 ${x} ${y}`;
-}
-
-
+      const percentage = 1 - this.odds / 100;
+      const angle = percentage * 180;
+      const x = 29 * Math.cos((angle * Math.PI) / 180);
+      const y = -29 * Math.sin((angle * Math.PI) / 180);
+      return `M -29 0 A 29 29 0 0 1 ${x} ${y}`;
+    }
+  },
+  methods: {
+    addAmount(amount) {
+      this.betAmount += amount;
+    },
+    confirmPurchase() {
+      console.log("Purchase confirmed:", this.betAmount);
+      this.isBuying = false;
+    }
   }
 };
 
-
-
+ 
 </script>
 
 <style scoped>
 @font-face {
-  font-family: 'OpenSauceSans-Bold';
-  src: url('fonts/OpenSauceSans-Bold.ttf') format('truetype');
+  font-family: "OpenSauceSans-Bold";
+  src: url("fonts/OpenSauceSans-Bold.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'OpenSauceSans-Medium';
-  src: url('fonts/OpenSauceSans-Medium.ttf') format('truetype');
+  font-family: "OpenSauceSans-Medium";
+  src: url("fonts/OpenSauceSans-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'OpenSauceSans-SemiBold';
-  src: url('fonts/OpenSauceSans-SemiBold.ttf') format('truetype');
+  font-family: "OpenSauceSans-SemiBold";
+  src: url("fonts/OpenSauceSans-SemiBold.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -149,7 +207,8 @@ export default {
   border-top-right-radius: 8px;
   border-top-style: solid;
   border-top-width: 1px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 3px 6px 0px, rgba(0, 0, 0, 0.02) 0px 6px 12px 0px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 3px 6px 0px,
+    rgba(0, 0, 0, 0.02) 0px 6px 12px 0px;
   box-sizing: border-box;
   color: rgba(0, 0, 0, 0.8);
   direction: ltr;
@@ -262,7 +321,7 @@ export default {
   margin-right: 5px;
 }
 .odds-container {
-  transform: translateY(-12px) ; /* Moves it up by 10px */
+  transform: translateY(-12px); /* Moves it up by 10px */
   position: absolute;
   top: 10px;
   right: 10px;
@@ -287,8 +346,6 @@ export default {
   align-items: center; /* Centers items horizontally */
   justify-content: center; /* Centers content within container */
   overflow: visible;
-
-
 }
 .odds-graphic {
   color: rgba(0, 0, 0, 0.8);
@@ -305,7 +362,6 @@ export default {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-
 .poster-info {
   position: absolute;
   bottom: 10px;
@@ -320,7 +376,7 @@ export default {
   cursor: default;
   direction: ltr;
   display: block;
-  font-family:OpenSauceSans-Medium !important;
+  font-family: OpenSauceSans-Medium !important;
   font-size: 14px;
   font-weight: 500;
   height: 17.5px;
@@ -350,7 +406,7 @@ export default {
 .odds-text p:last-child {
   margin: -2px;
   font-size: 11px;
-  opacity: .5;
+  opacity: 0.5;
   color: rgb(252, 252, 252);
 }
 .card-footer {
@@ -386,14 +442,13 @@ export default {
   max-width: calc(100% - 12px); /* Ensure it doesn't exceed available space */
 }
 
-
 .buy-yes {
   background-color: #27ae60;
   color: white;
 }
 
 .buy-no {
-  background-color: #E64800;
+  background-color: #e64800;
   color: white;
 }
 
@@ -435,7 +490,7 @@ export default {
   flex-basis: 0%;
   flex-grow: 1;
   flex-shrink: 1;
-  font-family:OpenSauceSans-Medium !important ;
+  font-family: OpenSauceSans-Medium !important ;
   font-feature-settings: normal;
   font-kerning: auto;
   font-optical-sizing: auto;
@@ -560,12 +615,71 @@ export default {
   padding-right: 8px; /* Adds right padding for a balanced look */
 }
 
-.poster-info p, 
+.poster-info p,
 .poster-info span {
   margin-left: -5px; /* Moves text 5px to the left */
+}.buying-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
 }
 
+.buying-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
 
+.buying-image-container {
+  width: 32px;
+  height: 32px;
+}
+
+.buying-title {
+  flex-grow: 1;
+  text-align: left;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+}
+
+.close-button {
+  cursor: pointer;
+  font-size: 20px;
+  color: white;
+}
+
+.buying-input-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bet-input {
+  width: 60px;
+  padding: 5px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.quick-buttons button {
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.buying-actions {
+  margin-top: 10px;
+}
+
+.buy-confirm {
+  background-color: #27ae60;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
 </style>
-
