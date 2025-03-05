@@ -132,6 +132,7 @@
   height: 60px;
   text-align: center;
   z-index: 5;
+  padding-bottom: 0px !important;
 }
 
 /* Ensure links are properly positioned */
@@ -154,7 +155,7 @@
   /* Position it just below the text */
   width: 100%;
   /* Ensure it spans full width */
-  height: 8px;
+  height: 5px;
   background-color: white;
   opacity: 0;
 }
@@ -180,6 +181,8 @@
   z-index: 5;
   transition: mask-position 250ms ease-out, mask-size 250ms ease-out;
   overflow-y: hidden !important; /* Prevent vertical scrolling */
+  display: flex;
+  height: 60px; /* Set this to match your navbar height */
 
 }
 
@@ -190,7 +193,8 @@
   margin: 0;
   list-style: none;
   align-items: center;
-  height: 42px; /* Ensures a consistent height */
+  height: 100%; /* Makes ul take full height of .nav-css */
+  border-bottom: 1px solid var(--colors-borderLight); /* Ensure this aligns with ul */
 
   /* Ensure all items align perfectly */
   gap: 0px !important;
@@ -204,7 +208,7 @@
   justify-content: center;
   box-sizing: border-box;
   min-width: 50px;
-  height: 42px; /* Same as .nav-css ul to prevent vertical movement */
+  height: 100%; /* Matches the full height of ul/nav */
   margin: 0 !important;
   line-height: normal !important;
   white-space: nowrap !important;
@@ -234,6 +238,8 @@
   user-select: none;
   transition: all 0.2s ease;
   width: auto;
+  height: 100%; /* Make sure links fill their parent <li> */
+
   /* Allows dynamic width */
 }
 

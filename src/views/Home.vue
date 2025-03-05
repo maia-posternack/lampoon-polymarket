@@ -3,6 +3,8 @@
 
   <Navbar />
   <div class="content">
+    <MarketButton />
+
      <SearchBar />
      <MarketList
     /> 
@@ -13,7 +15,7 @@
 
 <script setup>
 import Navbar from "../components/Navbar.vue";
-import MarketCard from "../components/MarketCard.vue";
+import MarketButton from "../components/MarketButton.vue";
 import MarketList from "../components/MarketList.vue";
 
 import Footer from "../components/Footer.vue";
