@@ -126,8 +126,19 @@ const fetchMarketsData = async () => {
 };
 
 const profitLoss = computed(() => {
-  return (parseFloat(positionsValue.value) - parseFloat(volumeTraded.value)).toFixed(2);
+  // Ensure there are bets before calculating
+  if (!currentBets.value.length) return 0;
+
+  // Sum up all potential wins
+  const totalPotentialWins = currentBets.value.reduce((total, bet) => {
+    const potentialWin = parseFloat(bet.potential_win.replace('$', '')) || 0; // Ensure it's a number
+    return total + potentialWin;
+  }, 0);
+
+  // Compute Profit/Loss: Positions Value - Total Potential Wins
+  return parseFloat((positionsValue.value - totalPotentialWins).toFixed(2));
 });
+
 const sorted_bets = computed(() => {
   return [...currentBets.value].sort((a, b) => b.timestamp - a.timestamp);
 });
