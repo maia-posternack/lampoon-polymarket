@@ -21,10 +21,10 @@
           <button class="button-style login" @click="openModal">Log In</button>
           <button class="button-style signup" @click="openModal">Sign Up</button>
         </template>
-        <template v-else>
+        <template v-else >
           <!-- Show User Photo & Logout when signed in -->
-          <button class="button-style signup logout-btn" @click="logout">Log Out</button>
-          <img :src="currentUser.photo" alt="Profile" class="profile-pic" />
+          <button class="button-style signup user-controls" @click="logout">Log Out</button>
+          <img :src="currentUser.photo" alt="Profile" class="profile-pic user-controls" />
 
         </template>
       </div>
@@ -681,16 +681,22 @@ nav {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-left: auto;
 }
 
 .profile-pic {
-  width: 40px;
-  height: 40px;
+  width: 35px !important;
+  height: 35px !important;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid white;
 }
-
-
+.user-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto; /* Pushes log out button & profile photo to the right */
+  transform: translateX(20px);
+}
 
 </style>

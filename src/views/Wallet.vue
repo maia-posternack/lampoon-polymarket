@@ -3,7 +3,7 @@
   <div class="wallet-container content">
     <!-- Top Section -->
     <div class="wallet-header">
-      <div class="username">@{{ username || "" }}</div>
+      <div class="username">{{ username? "@" + username : "" }}</div>
       <div class="balance">
         <div class="cash">${{ currentCash?.toFixed(2) || "0.00" }}</div>
         <div class="harvybucks"> Users begin with $500 Harvybucks</div>
@@ -55,7 +55,7 @@
 
     <!-- Purchases List -->
     <div class="purchases">
-      <h2>Purchases</h2>
+      <h2 v-if="sorted_bets.length > 0">Purchases</h2>
       <div v-for="bet in sorted_bets" :key="bet.id" class="bet-item">
         <img :src="bet.image" alt="Market Image" class="bet-image" />
         <div class="bet-details">
