@@ -199,84 +199,101 @@ export default {
       this.isBuyingNo = false;
       console.log("Closing buying UI");
     },
-
-
     async confirmPurchase(type) {
-      const user = authStore.currentUser;
-      const betAmount = this.betAmount;
-      console.log("old_current_cash", user.current_cash)
+  const user = authStore.currentUser;
+  const betAmount = this.betAmount;
 
+  if (!user) {
+    console.error("❌ No user logged in.");
+    return;
+  }
 
-      if (!user) {
-        console.error("❌ No user logged in.");
-        return;
-      }
+  // ✅ Fetch latest user data from Firestore instead of relying on `authStore.currentUser`
+  const userRef = doc(db, "users", user.uid);
+  const userSnap = await getDoc(userRef);
 
-      // Ensure user has enough cash
-      if (betAmount > user.current_cash) {
-        console.warn("❌ Not enough cash.");
-        this.showCashAlert = true; // ✅ Show alert
-        return;
-      }
+  if (!userSnap.exists()) {
+    console.error("❌ User document does not exist.");
+    return;
+  }
 
-      this.showCashAlert = false; // ✅ Hide alert if they have enough money
-      console.log("ID", this.id)
-      // Prepare bet details
-      const bet = {
-        market_id: this.id, // Ensure marketId is passed as a prop
-        bet_type: type, // 'yes' or 'no'
-        amount: betAmount,
-        potential_win: type === "yes" ? this.potentialWinYes : this.potentialWinNo,
-        timestamp: new Date().toISOString(),
-        title: this.title,
-        image: this.image
+  const userData = userSnap.data(); // ✅ Get up-to-date user data
+  console.log("Fetched User Data:", userData);
 
-      };
+  if (!userData.current_cash) {
+    console.warn("⚠️ current_cash is missing or undefined. Setting it to 0.");
+    userData.current_cash = 0; // ✅ Prevents NaN issues
+  }
 
-      console.log("✅ Placing bet:", bet);
+  if (betAmount > userData.current_cash) {
+    console.warn("❌ Not enough cash.");
+    this.showCashAlert = true; // ✅ Show alert
+    return;
+  }
 
-      try {
-        const userRef = doc(db, "users", user.uid);
-        if (!user.current_bets) {
-          user.current_bets = [];
-        }
-        user.current_bets.push(bet); // Add new bet to array
-        console.log("betAmount", betAmount)
-        user.current_cash -= betAmount; // Deduct bet amount
-        console.log("old_current_cash", user.current_cash)
+  this.showCashAlert = false; // ✅ Hide alert if they have enough money
 
-        const marketRef = doc(db, "markets", this.id); // ✅ Get market reference
+  const bet = {
+    market_id: this.id,
+    bet_type: type,
+    amount: betAmount,
+    potential_win: type === "yes" ? this.potentialWinYes : this.potentialWinNo,
+    timestamp: new Date().toISOString(),
+    title: this.title,
+    image: this.image
+  };
 
-        // Fetch the market document to update votes
-        const marketSnap = await getDoc(marketRef);
-        if (!marketSnap.exists()) {
-          console.error("❌ Market does not exist.");
-          return;
-        }
+  console.log("✅ Placing bet:", bet);
 
-        const marketData = marketSnap.data();
-        const updatedVotes = type === "yes"
-          ? (marketData.yesVotes || 0) + betAmount
-          : (marketData.noVotes || 0) + betAmount;
-        await Promise.all([
-          updateDoc(userRef, {
-            current_bets: user.current_bets,
-            current_cash: user.current_cash,
-          }),
-          updateDoc(marketRef, {
-            [type === "yes" ? "yesVotes" : "noVotes"]: updatedVotes, // ✅ Update correct field
-          }),
-        ]);
-        console.log("✅ Bet placed successfully.");
+  try {
+    // ✅ Update user data
+    const updatedBets = [...(userData.current_bets || []), bet];
+    const updatedCash = userData.current_cash - betAmount;
 
-
-        this.$router.push("/wallet"); // Redirect to wallet page
-
-      } catch (error) {
-        console.error("❌ Error placing bet:", error);
-        alert("Error placing bet. Check console.");
-      }
+    // ✅ Prevent NaN or negative values
+    if (isNaN(updatedCash) || updatedCash < 0) {
+      console.error("❌ Invalid cash calculation, preventing update.");
+      return;
     }
+
+    // ✅ Update Firestore with the new bet and cash balance
+    await updateDoc(userRef, {
+      current_bets: updatedBets,
+      current_cash: updatedCash,
+    });
+
+    console.log("✅ Bet placed successfully. New cash balance:", updatedCash);
+
+    // ✅ Update market votes
+    const marketRef = doc(db, "markets", this.id);
+    const marketSnap = await getDoc(marketRef);
+
+    if (!marketSnap.exists()) {
+      console.error("❌ Market does not exist.");
+      return;
+    }
+
+    const marketData = marketSnap.data();
+    const updatedVotes = type === "yes"
+      ? (marketData.yesVotes || 0) + betAmount
+      : (marketData.noVotes || 0) + betAmount;
+
+    await updateDoc(marketRef, {
+      [type === "yes" ? "yesVotes" : "noVotes"]: updatedVotes,
+    });
+
+    console.log("✅ Market updated successfully.");
+
+    this.$router.push("/wallet"); // ✅ Redirect to wallet page
+
+  } catch (error) {
+    console.error("❌ Error placing bet:", error);
+    alert("Error placing bet. Check console.");
+  }
+}
+
+
+
 
   }
 
