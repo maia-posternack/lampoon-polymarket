@@ -21,6 +21,7 @@
     <input 
       id="homepage-search-input" 
       v-model="searchQuery"
+      @keyup.enter="submitSearch"
       placeholder="Search by market" 
       autocomplete="off" 
       class="search-input"
@@ -28,12 +29,16 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      searchQuery: ''
-    };
+<script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const searchQuery = ref("");
+const router = useRouter();
+
+const submitSearch = () => {
+  if (searchQuery.value.trim()) {
+    router.push(`/search?query=${encodeURIComponent(searchQuery.value)}`);
   }
 };
 </script>

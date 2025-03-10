@@ -15,9 +15,18 @@
       </a>
 
       <!-- Auth Buttons -->
-      <div class="login-signup">
-        <button class="button-style  login">Log In</button>
-        <button class="button-style  signup">Sign Up</button>
+      <div class="auth-section login-signup">
+        <template v-if="!isSignedIn">
+          <!-- Show Log In and Sign Up when not signed in -->
+          <button class="button-style login" @click="openModal">Log In</button>
+          <button class="button-style signup" @click="openModal">Sign Up</button>
+        </template>
+        <template v-else>
+          <!-- Show User Photo & Logout when signed in -->
+          <button class="button-style signup logout-btn" @click="logout">Log Out</button>
+          <img :src="currentUser.photo" alt="Profile" class="profile-pic" />
+
+        </template>
       </div>
     </div>
 
@@ -25,25 +34,63 @@
     <div class="nav-css">
       <nav aria-label="Main">
         <ul class="list-holder">
-          <li>
-            <div class="live-container">
-              <span>LIVE</span>
-              <div class="live-indicator"></div>
-            </div>
-          </li>
           <li class="nav-item"><a href="/market/all" class="nav-item-click">All</a></li>
-          <li class="nav-item"><a href="/market/lampoon" class="nav-item-click ">Lampoon</a></li>
-          <li class="nav-item"><a href="/market/crimson" class="nav-item-click ">Crimson</a></li>
-          <li class="nav-item"><a href="/market/final-clubs" class="nav-item-click ">Final Clubs</a></li>
-          <li class="nav-item"><a href="/market/sports" class="nav-item-click ">Sports</a></li>
-          <li class="nav-item"><a href="/market/admin" class="nav-item-click ">Admin</a></li>
-          <li class="nav-item"><a href="/market/other" class="nav-item-click ">Other</a></li>
+          <li class="nav-item"><a href="/market/lampoon" class="nav-item-click">Lampoon</a></li>
+          <li class="nav-item"><a href="/market/final-clubs" class="nav-item-click">Final Clubs</a></li>
+          <li class="nav-item"><a href="/market/professors" class="nav-item-click">Professors</a></li>
+          <li class="nav-item"><a href="/market/other" class="nav-item-click">Other</a></li>
         </ul>
       </nav>
     </div>
 
+    <LoginModal v-if="isModalOpen" @close="closeModal" />
   </nav>
 </template>
+  
+<script>
+import LoginModal from "@/components/LoginModal.vue";
+import { auth } from "@/firebase"; // Import Firebase Auth
+import { signOut } from "firebase/auth";
+import { authStore } from "@/stores/authStore"; // Import global auth state
+
+export default {
+  components: {
+    LoginModal,
+  },
+  computed: {
+    isSignedIn() {
+      return authStore.isSignedIn;
+    },
+    currentUser() {
+      return authStore.currentUser;
+    }
+  },
+  data() {
+    return {
+      isModalOpen: false,
+    };
+  },
+  methods: {
+    openModal() {
+      this.isModalOpen = true;
+    },
+    closeModal() {
+      this.isModalOpen = false;
+    },
+    async logout() {
+      try {
+        await signOut(auth);
+        authStore.clearUser();
+        console.log("✅ User logged out.");
+      } catch (error) {
+        console.error("🔥 Error logging out:", error);
+      }
+    }
+  }
+};
+</script>
+
+
 <style>
 
 .nav-item-click {
@@ -618,4 +665,20 @@ nav {
   opacity: 0.6;
   /* Lower opacity on hover */
 }
+.auth-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+
+
 </style>

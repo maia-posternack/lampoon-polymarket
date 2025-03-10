@@ -1,6 +1,6 @@
 <template>
   <div class="card" :class="{ 'buying-mode': isBuying }">
-    
+
     <!-- BUYING UI TAKES OVER THE ENTIRE CARD -->
     <div v-if="isBuyingYes || isBuyingNo" class="buying-container">
       <div class="card-header">
@@ -13,34 +13,39 @@
         </div>
       </div>
 
-      <div class="card-edit-body"> 
-      <div class="input-and-slider"> 
-  <div class="buying-input-container">
-    $
-    <input type="number" v-model="betAmount" placeholder="0" class="bet-input" />
-  </div>
+      <div class="card-edit-body">
+        <div class="input-and-slider">
+          <div class="buying-input-container">
+            $
+            <input type="number" v-model="betAmount" placeholder="0" class="bet-input"
+              :class="{ 'error-input': showCashAlert }" />
+            <p v-if="showCashAlert" class="cash-alert">
+              Not enough cash, brokie
+            </p>
+          </div>
 
-  <!-- SLIDER CONTROL -->
-  <div class="bet-slider">
-    <input type="range" v-model="betAmount" min="0" max="100" step="1" class="slider">
-  </div>
-</div>
+          <!-- SLIDER CONTROL -->
+          <div class="bet-slider">
+            <input type="range" v-model="betAmount" min="0" max="100" step="1" class="slider">
+          </div>
+        </div>
 
 
-      <div class="buying-actions">
-        <button v-if="isBuyingYes" class="buy-confirm buy-yes-btn" @click="confirmPurchase('yes')">
-  <span class="confirm-text">Buy Yes</span>
-  <span class="win-text">To win {{ potentialWinYes }}</span>
-</button>
 
-<button v-if="isBuyingNo" class="buy-confirm buy-no-btn" @click="confirmPurchase('no')">
-  <span class="confirm-text">Buy No</span>
-  <span class="win-text">To win {{ potentialWinNo }}</span>
-</button>
+        <div class="buying-actions">
+          <button v-if="isBuyingYes" class="buy-confirm buy-yes-btn" @click="confirmPurchase('yes')">
+            <span class="confirm-text">Buy Yes</span>
+            <span class="win-text">To win {{ potentialWinYes }}</span>
+          </button>
 
+          <button v-if="isBuyingNo" class="buy-confirm buy-no-btn" @click="confirmPurchase('no')">
+            <span class="confirm-text">Buy No</span>
+            <span class="win-text">To win {{ potentialWinNo }}</span>
+          </button>
+
+        </div>
       </div>
     </div>
-  </div>
 
     <!-- ORIGINAL CARD ONLY SHOWS IF NOT BUYING -->
     <div v-else>
@@ -53,8 +58,8 @@
           <div class="odds-container">
             <svg class="odds-graphic" width="58" height="29" viewBox="-29 -29 58 29">
               <path d="M -29.001 0 A 29 29 0 1 1 29 0" fill="none" stroke="#858D92" stroke-width="4"></path>
-              <path :d="oddsPath" fill="none" :stroke="odds < 50 ? '#E64800' : '#27ae60'"
-                stroke-opacity="0.8155" stroke-width="4">
+              <path :d="oddsPath" fill="none" :stroke="odds < 50 ? '#E64800' : '#27ae60'" stroke-opacity="0.8155"
+                stroke-width="4">
               </path>
             </svg>
             <div class="odds-text">
@@ -73,8 +78,8 @@
               <div class="buy-button-icons">
                 <div class="arrow-icon">
                   <div class="arrow-icon">
-                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
-                      height="18px" width="18px" xmlns="http://www.w3.org/2000/svg">
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="18px"
+                      width="18px" xmlns="http://www.w3.org/2000/svg">
                       <path d="M6 12L12 6L18 12L16.5 13.5L12 9L7.5 13.5Z"></path>
                       <path d="M6 18L12 12L18 18L16.5 19.5L12 15L7.5 19.5Z"></path>
                     </svg>
@@ -89,8 +94,8 @@
               <span>Buy No</span>
               <div class="buy-button-icons">
                 <span class="arrow-icon">
-                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
-                    height="18px" width="18px" xmlns="http://www.w3.org/2000/svg">
+                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="18px"
+                    width="18px" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 6L12 12L18 6L16.5 4.5L12 9L7.5 4.5Z"></path>
                     <path d="M6 12L12 18L18 12L16.5 10.5L12 15L7.5 10.5Z"></path>
                   </svg>
@@ -108,33 +113,25 @@
     </div>
 
   </div>
+  <LoginModal v-if="isModalOpen" @close="isModalOpen = false" />
+
 </template>
 
 
 <script>
 import { ref, computed } from "vue";
+import LoginModal from "@/components/LoginModal.vue"; // ✅ Ensure import
+import { authStore } from "@/stores/authStore"; // ✅ Import global auth state
+import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase"; // Ensure you have the correct import for Firestore
+
+const isModalOpen = ref(false); // ✅ Control login modal visibility
+
 
 const isBuyingYes = ref(false);
 const isBuyingNo = ref(false);
 const betAmount = ref(10);
 
-const updateBetFromSlider = (event) => {
-  betAmount.value = parseInt(event.target.value, 10); // Ensures it's a valid number
-};
-
-const addAmount = (amount) => {
-  betAmount.value += amount;
-};
-
-const confirmPurchase = (type) => {
-  if (type === "yes") {
-    console.log("Buy Yes confirmed: ", betAmount.value);
-    isBuyingYes.value = false;
-  } else if (type === "no") {
-    console.log("Buy No confirmed: ", betAmount.value);
-    isBuyingNo.value = false;
-  }
-};
 
 
 export default {
@@ -145,23 +142,29 @@ export default {
     odds: Number,
     posterImage: String,
     posterName: String,
+    id: String
+  },
+  components: {
+    LoginModal,
   },
   data() {
     return {
       isBuyingYes: false, // Tracks Buy Yes state
-    isBuyingNo: false,  // Tracks Buy No state
-    betAmount: 10
+      isBuyingNo: false,  // Tracks Buy No state
+      betAmount: 10,
+      isModalOpen: false, // Controls LoginModal visibility
+      showCashAlert: false,
     };
   },
   computed: {
-  potentialWinYes() {
-    const decimalOdds = 1 / (this.odds / 100); // Buy Yes odds
-    return `$${(this.betAmount * decimalOdds).toFixed(2)}`;
-  },
-  potentialWinNo() {
-    const decimalOdds = 1 / ((1 - this.odds/100)); // Buy No odds
-    return `$${(this.betAmount * decimalOdds).toFixed(2)}`;
-  },
+    potentialWinYes() {
+      const decimalOdds = 1 / (this.odds / 100); // Buy Yes odds
+      return `$${(this.betAmount * decimalOdds).toFixed(2)}`;
+    },
+    potentialWinNo() {
+      const decimalOdds = 1 / ((1 - this.odds / 100)); // Buy No odds
+      return `$${(this.betAmount * decimalOdds).toFixed(2)}`;
+    },
 
     oddsPath() {
       const percentage = 1 - this.odds / 100;
@@ -172,40 +175,110 @@ export default {
     }
   },
   methods: {
-  addAmount(amount) {
-    this.betAmount += amount;
-  },
-  startBuying(type) {
-    if (type === "yes") {
-      this.isBuyingYes = true;
-      this.isBuyingNo = false;
-      console.log("buying yes")
-    } else {
-      this.isBuyingNo = true;
+    addAmount(amount) {
+      this.betAmount += amount;
+    },
+    startBuying(type) {
+      if (!authStore.currentUser) {
+        console.log("🔒 User not logged in. Showing login modal.");
+        this.isModalOpen = true; // Show login modal
+        return;
+      }
+      if (type === "yes") {
+        this.isBuyingYes = true;
+        this.isBuyingNo = false;
+        console.log("Buying Yes");
+      } else {
+        this.isBuyingNo = true;
+        this.isBuyingYes = false;
+        console.log("Buying No");
+      }
+    },
+    closeBuying() {
       this.isBuyingYes = false;
-      console.log("buying no")
+      this.isBuyingNo = false;
+      console.log("Closing buying UI");
+    },
 
+
+    async confirmPurchase(type) {
+      const user = authStore.currentUser;
+      const betAmount = this.betAmount;
+
+      if (!user) {
+        console.error("❌ No user logged in.");
+        return;
+      }
+
+      // Ensure user has enough cash
+      if (betAmount > user.current_cash) {
+        console.warn("❌ Not enough cash.");
+        this.showCashAlert = true; // ✅ Show alert
+        return;
+      }
+
+      this.showCashAlert = false; // ✅ Hide alert if they have enough money
+      console.log("ID", this.id)
+      // Prepare bet details
+      const bet = {
+        market_id: this.id, // Ensure marketId is passed as a prop
+        bet_type: type, // 'yes' or 'no'
+        amount: betAmount,
+        potential_win: type === "yes" ? this.potentialWinYes : this.potentialWinNo,
+        timestamp: new Date().toISOString(),
+        title: this.title,
+        image: this.image
+
+      };
+
+      console.log("✅ Placing bet:", bet);
+
+      try {
+        const userRef = doc(db, "users", user.uid);
+        if (!user.current_bets) {
+          user.current_bets = [];
+        }
+        user.current_bets.push(bet); // Add new bet to array
+        user.current_cash -= betAmount; // Deduct bet amount
+
+        const marketRef = doc(db, "markets", this.id); // ✅ Get market reference
+
+        // Fetch the market document to update votes
+        const marketSnap = await getDoc(marketRef);
+        if (!marketSnap.exists()) {
+          console.error("❌ Market does not exist.");
+          return;
+        }
+
+        const marketData = marketSnap.data();
+        const updatedVotes = type === "yes"
+          ? (marketData.yesVotes || 0) + betAmount
+          : (marketData.noVotes || 0) + betAmount;
+        await Promise.all([
+          updateDoc(userRef, {
+            current_bets: user.current_bets,
+            current_cash: user.current_cash,
+          }),
+          updateDoc(marketRef, {
+            [type === "yes" ? "yesVotes" : "noVotes"]: updatedVotes, // ✅ Update correct field
+          }),
+        ]);
+        console.log("✅ Bet placed successfully.");
+
+
+        this.$router.push("/wallet"); // Redirect to wallet page
+
+      } catch (error) {
+        console.error("❌ Error placing bet:", error);
+        alert("Error placing bet. Check console.");
+      }
     }
-  },
-  confirmPurchase(type) {
-    if (type === "yes") {
-      console.log("Buy Yes confirmed: ", this.betAmount);
-      this.isBuyingYes = false;
-    } else if (type === "no") {
-      console.log("Buy No confirmed: ", this.betAmount);
-      this.isBuyingNo = false;
-    }
-  },
-  closeBuying() {
-    this.isBuyingYes = false;
-    this.isBuyingNo = false;
-    console.log("Closing buying UI");
+
   }
+
 }
 
-};
 
- 
 </script>
 
 <style scoped>
@@ -216,6 +289,7 @@ export default {
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "OpenSauceSans-Medium";
   src: url("fonts/OpenSauceSans-Medium.ttf") format("truetype");
@@ -223,6 +297,7 @@ export default {
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "OpenSauceSans-SemiBold";
   src: url("fonts/OpenSauceSans-SemiBold.ttf") format("truetype");
@@ -230,24 +305,31 @@ export default {
   font-style: normal;
   font-display: swap;
 }
-.input-and-slider{
+
+.input-and-slider {
   transform: translateY(10px);
- 
+
   display: flex;
   align-items: center;
-  gap: 10px; /* Space between input and slider */
+  gap: 10px;
+  /* Space between input and slider */
   width: 100%;
 }
-.card-edit-body{
+
+.card-edit-body {
   padding-left: 8px !important;
   padding-right: 8px !important;
 
 }
+
 .buy-confirm {
-  transform: translateY(20px); /* Moves it down by 10px */;
+  transform: translateY(20px);
+  /* Moves it down by 10px */
+  ;
   background-color: rgb(39, 174, 96);
   color: rgb(255, 255, 255);
-  width: 100%; /* Makes it take the full width */
+  width: 100%;
+  /* Makes it take the full width */
   padding: 8px 1px;
   border: none;
   border-radius: 8px;
@@ -255,11 +337,13 @@ export default {
   font-size: 14px !important;
   font-family: OpenSauceSans-Medium !important;
   display: flex;
-  flex-direction: column; /* Stacks text on separate rows */
+  flex-direction: column;
+  /* Stacks text on separate rows */
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
+
 .buy-yes-btn {
   background-color: rgb(39, 174, 96);
   color: rgb(255, 255, 255);
@@ -270,7 +354,8 @@ export default {
 }
 
 .buy-no-btn {
-  background-color: rgb(230, 72, 0); /* Red color for Buy No */
+  background-color: rgb(230, 72, 0);
+  /* Red color for Buy No */
   color: rgb(255, 255, 255);
 }
 
@@ -279,8 +364,10 @@ export default {
 }
 
 .buy-confirm:hover {
-  opacity: 0.85; /* Slightly less opaque */
+  opacity: 0.85;
+  /* Slightly less opaque */
 }
+
 /* Ensures stacked text alignment */
 .confirm-text {
   font-size: 14px;
@@ -288,7 +375,8 @@ export default {
 
 .win-text {
   font-size: 11px;
-  opacity: 0.8; /* Slightly faded for clarity */
+  opacity: 0.8;
+  /* Slightly faded for clarity */
 }
 
 
@@ -327,7 +415,8 @@ export default {
 }
 
 .bet-input {
-  background-color: rgb(29, 43, 57); /* Matches .buying-input-container */
+  background-color: rgb(29, 43, 57);
+  /* Matches .buying-input-container */
   color: white;
   border: none;
   outline: none;
@@ -336,7 +425,8 @@ export default {
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
-  -moz-appearance: textfield; /* Removes arrows in Firefox */
+  -moz-appearance: textfield;
+  /* Removes arrows in Firefox */
 }
 
 /* Removes up/down arrows in Chrome, Safari, Edge, Opera */
@@ -441,8 +531,10 @@ export default {
   transition-property: all;
   transition-timing-function: ease;
   user-select: none;
-  width: 70%; /* Increase input size */
-  flex-grow: 2; /* Makes input take more space */
+  width: 70%;
+  /* Increase input size */
+  flex-grow: 2;
+  /* Makes input take more space */
   word-spacing: 0px;
   -webkit-rtl-ordering: logical;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -499,12 +591,27 @@ export default {
   unicode-bidi: isolate;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
 .card {
-  transition: background-color 0.2s ease-in-out; /* Smooth transition effect */
+  transition: background-color 0.2s ease-in-out;
+  /* Smooth transition effect */
 }
 
+.cash-alert {
+  color: rgb(230, 72, 0);
+  font-size: 12px;
+  margin-top: 4px;
+  text-align: block;
+  width: 100%;
+  /* Ensures it spans the input box width */
+
+}
+
+
+
 .card:hover {
-  background-color: #435463; /* Changes background on hover */
+  background-color: #435463;
+  /* Changes background on hover */
 }
 
 .card-header {
@@ -528,28 +635,36 @@ export default {
   z-index: 3;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
 .image-container {
   width: 38px;
   height: 38px;
   border-radius: 4px;
   overflow: hidden;
 }
+
 .card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .card-content {
   display: flex;
-  flex-direction: column; /* Stack elements (title & odds-container) */
+  flex-direction: column;
+  /* Stack elements (title & odds-container) */
   align-items: flex-start;
-  justify-content: space-between; /* Ensures space between title & odds-container */
-  gap: 8px; /* Keeps spacing consistent */
-  width: 100%; /* Ensures it spans full width */
+  justify-content: space-between;
+  /* Ensures space between title & odds-container */
+  gap: 8px;
+  /* Keeps spacing consistent */
+  width: 100%;
+  /* Ensures it spans full width */
 }
 
 .card-title {
-  max-width: calc(100% - 80px); /* Prevents it from touching odds-container */
+  max-width: calc(100% - 80px);
+  /* Prevents it from touching odds-container */
   position: relative;
   text-decoration: none;
   color: white;
@@ -559,39 +674,49 @@ export default {
 .odds-text p {
   margin: 0;
 }
+
 .card-footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px; /* Matches card padding */
-  width: 100%; /* Ensures full width for the container */
+  padding: 12px;
+  /* Matches card padding */
+  width: 100%;
+  /* Ensures full width for the container */
 }
+
 .buy-button {
   padding: 5px 10px;
   border: none;
   cursor: pointer;
   border-radius: 4px;
 }
+
 .buy-yes {
   background: green;
   color: white;
 }
+
 .buy-no {
   background: red;
   color: white;
 }
+
 .poster-info {
   display: flex;
   align-items: center;
 }
+
 .poster-image {
   width: 20px;
   height: 20px;
   border-radius: 50%;
   margin-right: 5px;
 }
+
 .odds-container {
-  transform: translateY(-12px); /* Moves it up by 10px */
+  transform: translateY(-12px);
+  /* Moves it up by 10px */
   position: absolute;
   top: 10px;
   right: 10px;
@@ -613,10 +738,13 @@ export default {
   column-gap: 8px;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centers items horizontally */
-  justify-content: center; /* Centers content within container */
+  align-items: center;
+  /* Centers items horizontally */
+  justify-content: center;
+  /* Centers content within container */
   overflow: visible;
 }
+
 .odds-graphic {
   color: rgba(0, 0, 0, 0.8);
   cursor: default;
@@ -639,8 +767,10 @@ export default {
   display: flex;
   align-items: center;
 }
+
 .odds-text {
-  transform: translateY(-13px); /* Moves it up without affecting layout flow */
+  transform: translateY(-13px);
+  /* Moves it up without affecting layout flow */
   box-sizing: border-box;
   color: rgb(252, 252, 252);
   cursor: default;
@@ -670,15 +800,19 @@ export default {
   unicode-bidi: isolate;
   width: 28.8828px;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  text-align: center; /* Centers text horizontally */
-  width: 100%; /* Ensures it spans the container */
+  text-align: center;
+  /* Centers text horizontally */
+  width: 100%;
+  /* Ensures it spans the container */
 }
+
 .odds-text p:last-child {
   margin: -2px;
   font-size: 11px;
   opacity: 0.5;
   color: rgb(252, 252, 252);
 }
+
 .card-footer {
   box-sizing: border-box;
   color: rgba(0, 0, 0, 0.8);
@@ -700,16 +834,22 @@ export default {
   z-index: 1;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
 .buy-button-container {
   display: flex;
-  transform: translateY(-35px); /* Moves it up by 10px */
-  gap: 8px; /* Keeps a small gap between buttons */
-  width: 100%; /* Makes sure it fills the available space */
+  transform: translateY(-35px);
+  /* Moves it up by 10px */
+  gap: 8px;
+  /* Keeps a small gap between buttons */
+  width: 100%;
+  /* Makes sure it fills the available space */
 }
 
 .buy-button {
-  width: 100%; /* Allow it to take full container width */
-  max-width: calc(100% - 12px); /* Ensure it doesn't exceed available space */
+  width: 100%;
+  /* Allow it to take full container width */
+  max-width: calc(100% - 12px);
+  /* Ensure it doesn't exceed available space */
 }
 
 .buy-yes {
@@ -760,7 +900,7 @@ export default {
   flex-basis: 0%;
   flex-grow: 1;
   flex-shrink: 1;
-  font-family: OpenSauceSans-Medium !important ;
+  font-family: OpenSauceSans-Medium !important;
   font-feature-settings: normal;
   font-kerning: auto;
   font-optical-sizing: auto;
@@ -803,26 +943,37 @@ export default {
   word-spacing: 0px;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
 .buy-yes {
-  background-color: rgba(39, 174, 96, 0.2); /* Green with 10% opacity */
+  background-color: rgba(39, 174, 96, 0.2);
+  /* Green with 10% opacity */
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  color: rgb(39, 174, 96); /* Text stays fully visible */
+  color: rgb(39, 174, 96);
+  /* Text stays fully visible */
 }
 
 .buy-yes:hover {
-  background-color: rgb(39, 174, 96); /* Solid green on hover */
-  color: rgb(255, 255, 255); /* Text turns white on hover */
+  background-color: rgb(39, 174, 96);
+  /* Solid green on hover */
+  color: rgb(255, 255, 255);
+  /* Text turns white on hover */
 }
+
 .buy-no {
-  background-color: rgba(230, 72, 0, 0.2); /* Green with 10% opacity */
+  background-color: rgba(230, 72, 0, 0.2);
+  /* Green with 10% opacity */
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  color: rgb(230, 72, 0); /* Text stays fully visible */
+  color: rgb(230, 72, 0);
+  /* Text stays fully visible */
 }
 
 .buy-no:hover {
-  background-color: rgb(230, 72, 0); /* Solid green on hover */
-  color: rgb(255, 255, 255); /* Text turns white on hover */
+  background-color: rgb(230, 72, 0);
+  /* Solid green on hover */
+  color: rgb(255, 255, 255);
+  /* Text turns white on hover */
 }
+
 .poster-info {
   align-items: center;
   background-color: rgba(45, 156, 219, 0.2);
@@ -879,31 +1030,39 @@ export default {
 }
 
 .poster-info {
-  width: auto; /* Allows the container to expand based on text length */
-  min-width: fit-content; /* Ensures it only takes up as much space as needed */
-  padding-left: 4px; /* Keeps left padding consistent */
-  padding-right: 8px; /* Adds right padding for a balanced look */
+  width: auto;
+  /* Allows the container to expand based on text length */
+  min-width: fit-content;
+  /* Ensures it only takes up as much space as needed */
+  padding-left: 4px;
+  /* Keeps left padding consistent */
+  padding-right: 8px;
+  /* Adds right padding for a balanced look */
 }
 
 .poster-info p,
 .poster-info span {
-  margin-left: -5px; /* Moves text 5px to the left */
+  margin-left: -5px;
+  /* Moves text 5px to the left */
 }
+
 .close-button {
   position: absolute;
-  top: 0px; /* Move to the top */
-  right: 8px; /* Move to the right */
-  font-size: 16px; /* Make it smaller */
-  color: white; /* Make it white */
+  top: 0px;
+  /* Move to the top */
+  right: 8px;
+  /* Move to the right */
+  font-size: 16px;
+  /* Make it smaller */
+  color: white;
+  /* Make it white */
   background: none;
   border: none;
   cursor: pointer;
   padding: 4px;
   line-height: 1;
   font-weight: bold;
-  z-index: 20; /* Ensure it appears on top */
+  z-index: 20;
+  /* Ensure it appears on top */
 }
-
-
-
 </style>
