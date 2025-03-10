@@ -181,7 +181,7 @@ export default {
         router.push("/");
       } catch (error) {
         console.error("❌ Error saving market:", error);
-        alert("Error saving market. Check console.");
+        alert("Error saving market. Please sign out and try-again. ");
       }
     };
 
