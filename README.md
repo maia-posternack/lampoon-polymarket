@@ -1,6 +1,6 @@
-# polymarket spoof for lampoon
+# polymarket spoof for lampoon -- HARVYMARKET
 
-to runL
+to run
 ```sh
 npm install
 ```
