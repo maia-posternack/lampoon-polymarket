@@ -60,7 +60,7 @@ export default {
             username: username,
             email: user.email,
             photo: user.photoURL,
-            current_cash: 100, // ✅ Start with $100
+            current_cash: 500, // ✅ Start with $500
             current_bets: [],
             created_markets: [],
             uid: user.uid,

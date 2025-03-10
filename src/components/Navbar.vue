@@ -4,7 +4,7 @@
     <div class="all-nav">
       <!-- Logo -->
       <a href="/" class=" custom-link">
-        <svg class="custom-logo" width="180" height="60" viewBox="0 0 220 60" fill="none">
+        <svg class="custom-logo" width="180" height="60" viewBox="0 0 210 30" fill="none">
    
         <text x="40" y="30"  fill="white">Harvymarket</text>
 
