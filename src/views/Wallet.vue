@@ -73,14 +73,15 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { db } from "@/firebase"; // Adjust path to your Firebase setup
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
 import { authStore } from "@/stores/authStore"; // Adjust based on your auth store
 import Navbar from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
 
 // Reactive state
+const userId = ref("");
 const username = ref("");
 const currentCash = ref(0);
 const currentBets = ref([]);
@@ -91,6 +92,8 @@ const fetchUserData = async () => {
   try {
     const user = authStore.currentUser;
     if (!user) return;
+    userId.value = user.uid; // Store user ID for updates
+
 
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
@@ -164,6 +167,22 @@ const marketsTraded = computed(() => currentBets.value.length);
 const volumeTraded = computed(() => 
   currentBets.value.reduce((total, bet) => total + (bet.amount || 0), 0)
 );
+watch([positionsValue, volumeTraded], async ([newPositionsValue, newVolumeTraded]) => {
+  if (!userId.value) return; // Prevent updates if user not found
+
+  try {
+    const userRef = doc(db, "users", userId.value);
+    await setDoc(userRef, {
+      positions_value: newPositionsValue,
+      volume_traded: newVolumeTraded,
+      profit_loss: profitLoss.value, // Save calculated profit/loss
+    }, { merge: true });
+
+    console.log("✅ User's financial data updated in Firestore");
+  } catch (error) {
+    console.error("❌ Error updating Firestore:", error);
+  }
+});
 
 // Fetch data when component mounts
 onMounted(async () => {

@@ -216,7 +216,7 @@ export default {
 .title {
   font-size: 22px;
   color: white;
-  font-family: OpenSauceSans-Bold;
+  font-family: OpenSauceSans-Bold, sans-serif;
   margin-bottom: 20px;
 }
 

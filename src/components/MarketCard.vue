@@ -204,6 +204,8 @@ export default {
     async confirmPurchase(type) {
       const user = authStore.currentUser;
       const betAmount = this.betAmount;
+      console.log("old_current_cash", user.current_cash)
+
 
       if (!user) {
         console.error("❌ No user logged in.");
@@ -239,7 +241,9 @@ export default {
           user.current_bets = [];
         }
         user.current_bets.push(bet); // Add new bet to array
+        console.log("betAmount", betAmount)
         user.current_cash -= betAmount; // Deduct bet amount
+        console.log("old_current_cash", user.current_cash)
 
         const marketRef = doc(db, "markets", this.id); // ✅ Get market reference
 

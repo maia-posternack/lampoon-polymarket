@@ -3,7 +3,7 @@ import Home from "../views/Home.vue";
 import Market from "../views/Market.vue";
 import SearchResults from "../views/SearchResults.vue";
 import More from "../views/More.vue";
-import Activity from "../views/Activity.vue";
+import Ranks from "../views/Ranks.vue";
 import Create from "../views/Create.vue";
 import Wallet from "../views/Wallet.vue";
 import MarketListPage from '../views/MarketListPage.vue';
@@ -20,7 +20,7 @@ const routes = [
   },
     { path: "/market", component: Market },
   { path: "/create", component: Create },
-  { path: "/activity", component: Activity },
+  { path: "/ranks", component: Ranks },
   { path: "/search", component: SearchResults },
   { path: "/wallet", component: Wallet },
   { path: "/more", component: More }

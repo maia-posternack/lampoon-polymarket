@@ -1,7 +1,7 @@
 <template>
   <div class="modal-overlay" @click="closeModal">
     <div class="modal-content" @click.stop>
-      <h2>Welcome to Harvymarket</h2>
+      <h2 class="welcome">Welcome to Harvymarket</h2>
       <div class="smaller">
 Sign in using your Harvard College email address.
 </div>
@@ -64,7 +64,11 @@ export default {
             current_bets: [],
             created_markets: [],
             uid: user.uid,
+            positions_value: 0,
+            volume_traded: 0,
+            profit_loss: 0,
           });
+
 
           console.log("✅ User profile created in Firestore.");
           authStore.setUser({ uid: user.uid, username, email: user.email, photo: user.photoURL });
@@ -92,6 +96,11 @@ export default {
 
 <style scoped>
 /* Modal Background (Darkens Rest of Page) */
+.welcome {
+  font-size: 24px;
+  font-family: 'OpenSauceSans-SemiBold', sans-serif;
+  margin-bottom: 10px;
+}
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -107,6 +116,8 @@ export default {
 
 /* Modal Box */
 .modal-content {
+  margin: 20px;
+
   background: rgb(29, 43, 57); /* Dark Blue */
   padding: 30px;
   border-radius: 10px;
