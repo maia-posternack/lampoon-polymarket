@@ -130,9 +130,6 @@ const fetchMarketsData = async () => {
   }
 };
 
-const profitLoss = computed(() => {
-  return (parseFloat(positionsValue.value) - parseFloat(volumeTraded.value)).toFixed(2);
-});
 const sorted_bets = computed(() => {
   return [...currentBets.value].sort((a, b) => b.timestamp - a.timestamp);
 });
@@ -169,9 +166,12 @@ const positionsValue = computed(() => {
 const marketsTraded = computed(() => currentBets.value.length);
 
 // ✅ Computed property to calculate total volume traded (sum of all bet amounts)
-const volumeTraded = computed(() =>
-  parseFloat(currentBets.value.reduce((total, bet) => total + (bet.amount || 0), 0)).toFixed(2)
-);
+const volumeTraded = computed(() => (500 - currentCash.value).toFixed(2));
+
+const profitLoss = computed(() => {
+  return (parseFloat(positionsValue.value) - parseFloat(volumeTraded.value)).toFixed(2);
+});
+
 watch([positionsValue, volumeTraded], async ([newPositionsValue, newVolumeTraded]) => {
   if (!userId.value) return; // Prevent updates if user not found
 
