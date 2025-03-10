@@ -1,31 +1,15 @@
 <template>
   <div class="searchbar">
     <div class="search-icon">
-      <svg 
-        stroke="white" 
-        fill="white" 
-        stroke-width="0" 
-        viewBox="0 0 25 25" 
-        class="search-svg" 
-        height="10px" 
-        width="10px" 
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path 
-          fill-rule="evenodd" 
-          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" 
-          clip-rule="evenodd"
-        ></path>
+      <svg stroke="white" fill="white" stroke-width="0" viewBox="0 0 25 25" class="search-svg" height="10px"
+        width="10px" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd"
+          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+          clip-rule="evenodd"></path>
       </svg>
     </div>
-    <input 
-      id="homepage-search-input" 
-      v-model="searchQuery"
-      @keyup.enter="submitSearch"
-      placeholder="Search by market" 
-      autocomplete="off" 
-      class="search-input"
-    />
+    <input id="homepage-search-input" v-model="searchQuery" @keyup.enter="submitSearch" placeholder="Search by market"
+      autocomplete="off" class="search-input" />
   </div>
 </template>
 
@@ -71,7 +55,7 @@ const submitSearch = () => {
 
 .searchbar:focus-within {
   border-color: white;
-  
+
 }
 
 .search-icon {
@@ -102,5 +86,4 @@ const submitSearch = () => {
 .search-input::placeholder {
   color: rgb(180, 180, 180);
 }
-
 </style>

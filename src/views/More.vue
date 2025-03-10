@@ -1,6 +1,6 @@
 <template data-color-mode="dark">
   <Navbar />
-    <MarketList />
+  <MarketList />
   <Footer />
 </template>
 

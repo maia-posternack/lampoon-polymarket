@@ -65,14 +65,16 @@ onMounted(fetchMarkets);
   background: #333 !important;
   padding: 15px;
   text-align: center;
-  z-index: 10000 !important; /* Keep it above all content */
+  z-index: 10000 !important;
+  /* Keep it above all content */
   isolation: isolate;
 }
 
 /* 🔥 Make Body Scroll Normally */
 body {
   overflow-x: hidden;
-  overflow-y: auto; /* Allow scrolling */
+  overflow-y: auto;
+  /* Allow scrolling */
   margin: 0;
 }
 
@@ -81,7 +83,9 @@ body {
   position: relative !important;
   z-index: 1 !important;
   padding: 10px !important;
-  padding-top: 110px !important; /* Ensures content starts below navbar */
-  padding-bottom: 70px !important; /* Ensures content ends above footer */
+  padding-top: 110px !important;
+  /* Ensures content starts below navbar */
+  padding-bottom: 70px !important;
+  /* Ensures content ends above footer */
 }
 </style>

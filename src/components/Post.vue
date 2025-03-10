@@ -5,30 +5,17 @@
     <form @submit.prevent="submitMarket" class="market-form">
       <!-- Market Question Input -->
       <div class="form-group">
-        <label for="market-question"
-          >What market would you like to bet on?</label
-        >
-        <input
-          type="text"
-          id="market-question"
-          v-model="marketQuestion"
-          placeholder="Enter your market question"
-          required
-        />
+        <label for="market-question">What market would you like to bet on?</label>
+        <input type="text" id="market-question" v-model="marketQuestion" placeholder="Enter your market question"
+          required />
       </div>
 
       <!-- Image Upload (Optional) -->
       <div class="form-group file-upload">
         <label for="market-image" class="custom-file-upload">{{
           uploadButtonText
-        }}</label>
-        <input
-          type="file"
-          id="market-image"
-          @change="handleImageUpload"
-          accept="image/*"
-          class="hidden-input"
-        />
+          }}</label>
+        <input type="file" id="market-image" @change="handleImageUpload" accept="image/*" class="hidden-input" />
       </div>
 
       <!-- Category Selection -->
@@ -106,8 +93,7 @@ export default {
           "state_changed",
           (snapshot) => {
             console.log(
-              `Upload Progress: ${
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              `Upload Progress: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100
               }%`
             );
           },
@@ -147,8 +133,8 @@ export default {
           sam_pics[Math.floor(Math.random() * sam_pics.length)],
         tag: selectedTag.value,
         anonymous: isAnonymous.value,
-        posterImage: isAnonymous.value ? "https://polymarket.com/_next/image?url=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F72647502%2Ftyler_400x400.jpg&w=96&q=75": authStore.currentUser.photo,
-           // ✅ User's profile photo
+        posterImage: isAnonymous.value ? "https://polymarket.com/_next/image?url=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F72647502%2Ftyler_400x400.jpg&w=96&q=75" : authStore.currentUser.photo,
+        // ✅ User's profile photo
         posterName: isAnonymous.value ? "anon" : authStore.currentUser.username, // ✅ User's username
         yesVotes: 50,
         noVotes: 50,
@@ -156,9 +142,9 @@ export default {
       };
 
       try {
-        const marketRef  = await addDoc(collection(db, "markets"), newMarket);
+        const marketRef = await addDoc(collection(db, "markets"), newMarket);
         console.log("✅ Market Successfully Saved:", newMarket);
-        console.log("user",authStore.currentUser)
+        console.log("user", authStore.currentUser)
         console.log("markets", authStore.currentUser.created_markets)
 
 
@@ -258,8 +244,10 @@ input::placeholder {
   align-items: center;
   gap: 8px;
 }
+
 .checkbox label {
-  margin-top: 5px; /* Adjust value as needed */
+  margin-top: 5px;
+  /* Adjust value as needed */
 }
 
 .submit-button {
@@ -305,32 +293,40 @@ input::placeholder {
   height: 100%;
   cursor: pointer;
 }
+
 .checkbox {
   display: flex;
   align-items: center;
-  gap: 8px; /* Space between checkbox and label */
+  gap: 8px;
+  /* Space between checkbox and label */
   cursor: pointer;
 }
 
 .checkbox input[type="checkbox"] {
-  appearance: none; /* Remove default checkbox */
+  appearance: none;
+  /* Remove default checkbox */
   width: 18px;
   height: 18px;
-  background-color: rgb(52, 68, 82); /* Matches your UI */
-  border: 2px solid rgb(100, 120, 140); /* Subtle border */
-  border-radius: 4px; /* Slightly rounded edges */
+  background-color: rgb(52, 68, 82);
+  /* Matches your UI */
+  border: 2px solid rgb(100, 120, 140);
+  /* Subtle border */
+  border-radius: 4px;
+  /* Slightly rounded edges */
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   position: relative;
 }
 
 .checkbox input[type="checkbox"]:checked {
-  background-color: rgb(39, 174, 96); /* Green when checked */
+  background-color: rgb(39, 174, 96);
+  /* Green when checked */
   border-color: rgb(39, 174, 96);
 }
 
 .checkbox input[type="checkbox"]::after {
-  content: "✓"; /* Checkmark */
+  content: "✓";
+  /* Checkmark */
   font-size: 14px;
   color: white;
   position: absolute;
@@ -342,7 +338,8 @@ input::placeholder {
 }
 
 .checkbox input[type="checkbox"]:checked::after {
-  opacity: 1; /* Show checkmark */
+  opacity: 1;
+  /* Show checkmark */
 }
 
 .checkbox label {
@@ -353,10 +350,12 @@ input::placeholder {
 }
 
 .checkbox input[type="checkbox"]:hover {
-  border-color: rgb(150, 170, 190); /* Lighten border on hover */
+  border-color: rgb(150, 170, 190);
+  /* Lighten border on hover */
 }
 
 .checkbox input[type="checkbox"]:checked:hover {
-  background-color: rgb(33, 148, 82); /* Slightly darker green on hover */
+  background-color: rgb(33, 148, 82);
+  /* Slightly darker green on hover */
 }
 </style>

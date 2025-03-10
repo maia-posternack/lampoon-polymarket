@@ -23,12 +23,13 @@ const route = useRoute();
 const fetchMarkets = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, "markets"));
-    markets.value = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-      odds: calculateOdds(doc.data().yesVotes, doc.data().noVotes),
-    })).filter(market => market.tag?.toLowerCase() !== "lampoon"); // Exclude if tag is "lampoon"
-
+    markets.value = querySnapshot.docs
+      .map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        odds: calculateOdds(doc.data().yesVotes, doc.data().noVotes),
+      }))
+      .filter((market) => market.tag?.toLowerCase() !== "lampoon"); // Exclude if tag is "lampoon"
   } catch (error) {
     console.error("❌ Error fetching markets:", error);
   }
@@ -42,7 +43,9 @@ const calculateOdds = (yesVotes, noVotes) => {
 // Compute filtered markets based on search query
 const filteredMarkets = computed(() => {
   const query = route.query.query?.toLowerCase() || "";
-  return markets.value.filter(market => market.title.toLowerCase().includes(query));
+  return markets.value.filter((market) =>
+    market.title.toLowerCase().includes(query)
+  );
 });
 
 // Refetch markets when page loads

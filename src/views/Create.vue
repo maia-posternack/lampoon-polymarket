@@ -1,10 +1,10 @@
 <template data-color-mode="dark">
   <Navbar />
-    <div class="content">
-      <Post />
+  <div class="content">
+    <Post />
     <Footer />
 
-    </div>
+  </div>
 </template>
 <script setup>
 import Navbar from "../components/Navbar.vue";

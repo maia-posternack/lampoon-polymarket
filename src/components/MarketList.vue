@@ -1,16 +1,8 @@
 <template>
   <div class="market-card-container">
-    <MarketCard
-      v-for="(market, index) in sortedMarkets"
-      :key="index"
-      :image="market.image"
-      :title="market.title"
-      :link="'/market/' + market.id"
-      :odds="market.odds"
-      :posterImage="market.posterImage"
-      :posterName="market.posterName"
-      :id="market.id"
-    />
+    <MarketCard v-for="(market, index) in sortedMarkets" :key="index" :image="market.image" :title="market.title"
+      :link="'/market/' + market.id" :odds="market.odds" :posterImage="market.posterImage"
+      :posterName="market.posterName" :id="market.id" />
   </div>
 </template>
 

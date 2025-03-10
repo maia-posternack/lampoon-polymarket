@@ -5,8 +5,8 @@
       <!-- Logo -->
       <a href="/" class=" custom-link">
         <svg class="custom-logo" width="180" height="60" viewBox="0 0 210 30" fill="none">
-   
-        <text x="40" y="30"  fill="white">Harvymarket</text>
+
+          <text x="40" y="30" fill="white">Harvymarket</text>
 
           <path fill-rule="evenodd" clip-rule="evenodd"
             d="M30.6525 17.4069V0L0 8.6333V8.77358V29.2266V29.3668L30.6525 38.0001V20.5933V17.4069ZM27.6857 16.5713V3.8835L5.16277 10.2277L27.6857 16.5713ZM25.4849 19.0001L2.96678 12.6572V25.3429L25.4849 19.0001ZM5.16283 27.7724L27.6857 34.1166V21.4289L5.16283 27.7724Z"
@@ -21,7 +21,7 @@
           <button class="button-style login" @click="openModal">Log In</button>
           <button class="button-style signup" @click="openModal">Sign Up</button>
         </template>
-        <template v-else >
+        <template v-else>
           <!-- Show User Photo & Logout when signed in -->
           <button class="button-style signup user-controls" @click="logout">Log Out</button>
           <img :src="currentUser.photo" alt="Profile" class="profile-pic user-controls" />
@@ -35,11 +35,11 @@
       <nav aria-label="Main">
         <ul class="list-holder">
           <li>
-             <div class="live-container">
-               <span>LIVE</span>
-               <div class="live-indicator"></div>
-             </div>
-           </li>
+            <div class="live-container">
+              <span>LIVE</span>
+              <div class="live-indicator"></div>
+            </div>
+          </li>
           <li class="nav-item"><a href="/market/all" class="nav-item-click">All</a></li>
           <li class="nav-item"><a href="/market/lampoon" class="nav-item-click">Lampoon</a></li>
           <li class="nav-item"><a href="/market/final-clubs" class="nav-item-click">Final Clubs</a></li>
@@ -52,7 +52,7 @@
     <LoginModal v-if="isModalOpen" @close="closeModal" />
   </nav>
 </template>
-  
+
 <script>
 import LoginModal from "@/components/LoginModal.vue";
 import { auth } from "@/firebase"; // Import Firebase Auth
@@ -98,11 +98,10 @@ export default {
 
 
 <style>
-
 .custom-logo text {
-    font-family: 'OpenSauceSans-Medium', sans-serif;
-    font-size: 27px;
-    font-weight: 600px;
+  font-family: 'OpenSauceSans-Medium', sans-serif;
+  font-size: 27px;
+  font-weight: 600px;
 }
 
 .nav-item-click {
@@ -239,9 +238,11 @@ export default {
   margin: 0px;
   z-index: 5;
   transition: mask-position 250ms ease-out, mask-size 250ms ease-out;
-  overflow-y: hidden !important; /* Prevent vertical scrolling */
+  overflow-y: hidden !important;
+  /* Prevent vertical scrolling */
   display: flex;
-  height: 60px; /* Set this to match your navbar height */
+  height: 60px;
+  /* Set this to match your navbar height */
 
 }
 
@@ -252,8 +253,10 @@ export default {
   margin: 0;
   list-style: none;
   align-items: center;
-  height: 100%; /* Makes ul take full height of .nav-css */
-  border-bottom: 1px solid var(--colors-borderLight); /* Ensure this aligns with ul */
+  height: 100%;
+  /* Makes ul take full height of .nav-css */
+  border-bottom: 1px solid var(--colors-borderLight);
+  /* Ensure this aligns with ul */
 
   /* Ensure all items align perfectly */
   gap: 0px !important;
@@ -267,7 +270,8 @@ export default {
   justify-content: center;
   box-sizing: border-box;
   min-width: 50px;
-  height: 100%; /* Matches the full height of ul/nav */
+  height: 100%;
+  /* Matches the full height of ul/nav */
   margin: 0 !important;
   line-height: normal !important;
   white-space: nowrap !important;
@@ -297,7 +301,8 @@ export default {
   user-select: none;
   transition: all 0.2s ease;
   width: auto;
-  height: 100%; /* Make sure links fill their parent <li> */
+  height: 100%;
+  /* Make sure links fill their parent <li> */
 
   /* Allows dynamic width */
 }
@@ -677,6 +682,7 @@ nav {
   opacity: 0.6;
   /* Lower opacity on hover */
 }
+
 .auth-section {
   display: flex;
   align-items: center;
@@ -691,12 +697,13 @@ nav {
   object-fit: cover;
   border: 2px solid white;
 }
+
 .user-controls {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: auto; /* Pushes log out button & profile photo to the right */
+  margin-left: auto;
+  /* Pushes log out button & profile photo to the right */
   transform: translateX(20px);
 }
-
 </style>
