@@ -2,7 +2,8 @@
   <div class="modal-overlay" @click="closeModal">
     <div class="modal-content" @click.stop>
       <h2 class="welcome">Welcome to Harvymarket</h2>
-      <p>Sign in to start creating and trading on your friends.</p>
+      <div class="smaller">
+        Sign in to start creating and trading on your friends      </div>
       <button class="button-style signup google-btn" @click="signInWithGoogle">
         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 488 512" class="google-icon"
           height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
