@@ -351,7 +351,7 @@ export default {
   color: rgb(255, 255, 255);
   width: 100%;
   /* Makes it take the full width */
-  padding: 8px 1px;
+  padding: 5px 1px;
   border: none;
   border-radius: 8px;
   text-align: center;
@@ -1085,5 +1085,27 @@ export default {
   font-weight: bold;
   z-index: 20;
   /* Ensure it appears on top */
+}
+
+.buying-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px; /* Keeps space between title and close button */
+  width: 100%;
+}
+
+.buying-title .card-title {
+  display: block;
+  flex-grow: 1; /* Allows it to take available space */
+  white-space: nowrap; /* Forces a single line */
+  overflow: hidden; /* Hides overflowing text */
+  text-overflow: ellipsis; /* Adds "..." when text overflows */
+  max-width: 80%; /* Ensures it doesn’t exceed its container */
+}
+.image-container {
+  flex-shrink: 0; /* Prevents the image from shrinking */
+  width: 40px; /* Adjust image width */
+  height: 40px; /* Adjust image height */
 }
 </style>
