@@ -88,7 +88,7 @@ import Footer from "../components/Footer.vue";
 // Reactive state
 const userId = ref("");
 const username = ref("");
-const currentCash = ref(0);
+const currentCash = ref(500);
 const currentBets = ref([]);
 const marketsData = ref(new Map()); // Store market data for quick lookup
 
