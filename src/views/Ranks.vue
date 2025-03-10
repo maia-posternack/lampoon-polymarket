@@ -41,33 +41,31 @@
   
   // Fetch all users from Firestore and update profit
   const fetchUsers = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, "users"));
-      const usersList = [];
-  
-      for (const docSnap of querySnapshot.docs) {
-        const userData = docSnap.data();
-        const userId = docSnap.id;
-        
-        // Calculate Profit (profitLoss = positionsValue - volumeTraded)
-        const profit = parseFloat((userData.positions_value || 0) - (userData.volume_traded || 0)).toFixed(2);
-  
-        // Save profit to Firestore to avoid recalculating every time
-        await updateDoc(doc(db, "users", userId), { profit: parseFloat(profit) });
-  
-        usersList.push({
-          id: userId,
-          username: userData.username,
-          photo: userData.photo , // Add profile pic if available
-          profit: parseFloat(profit),
-        });
-      }
-  
-      users.value = usersList;
-    } catch (error) {
-      console.error("❌ Error fetching users:", error);
+  try {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    const usersList = [];
+
+    for (const docSnap of querySnapshot.docs) {
+      const userData = docSnap.data();
+      const userId = docSnap.id;
+
+      // ✅ Directly pull `profit_loss` from Firestore
+      const profit = parseFloat(userData.profit_loss || 0); 
+
+      usersList.push({
+        id: userId,
+        username: userData.username,
+        photo: userData.photo, // Add profile pic if available
+        profit: profit,
+      });
     }
-  };
+
+    users.value = usersList;
+  } catch (error) {
+    console.error("❌ Error fetching users:", error);
+  }
+};
+
   
   // Computed property to sort users by profit (descending order)
   const rankedUsers = computed(() => {
