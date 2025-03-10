@@ -2,9 +2,7 @@
   <div class="modal-overlay" @click="closeModal">
     <div class="modal-content" @click.stop>
       <h2 class="welcome">Welcome to Harvymarket</h2>
-      <div class="smaller">
-        Sign in using your Harvard College email address.
-      </div>
+      <p>Sign in to start creating and trading on your friends.</p>
       <button class="button-style signup google-btn" @click="signInWithGoogle">
         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 488 512" class="google-icon"
           height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -42,11 +40,6 @@ export default {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
         const email = user.email;
-
-        if (!email.endsWith("@college.harvard.edu")) {
-          await auth.signOut();
-          return;
-        }
 
         console.log("✅ User signed in:", user);
 
