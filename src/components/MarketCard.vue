@@ -275,8 +275,8 @@ export default {
 
     const marketData = marketSnap.data();
     const updatedVotes = type === "yes"
-      ? (marketData.yesVotes || 0) + betAmount
-      : (marketData.noVotes || 0) + betAmount;
+      ? parseFloat(marketData.yesVotes || 0) + parseFloat(betAmount)
+      : parseFloat(marketData.noVotes || 0) + parseFloat(betAmount);
 
     await updateDoc(marketRef, {
       [type === "yes" ? "yesVotes" : "noVotes"]: updatedVotes,

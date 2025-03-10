@@ -31,6 +31,7 @@ const fetchMarkets = async () => {
       ...doc.data(),
       odds: calculateOdds(doc.data().yesVotes, doc.data().noVotes),
     }));
+    console.log("markets", markets)
   } catch (error) {
     console.error('❌ Error fetching markets:', error);
   }
@@ -39,6 +40,8 @@ const fetchMarkets = async () => {
 // Function to calculate odds based on votes
 const calculateOdds = (yesVotes, noVotes) => {
   const totalVotes = yesVotes + noVotes;
+  console.log("votes", yesVotes, noVotes, totalVotes === 0 ? '50' : ((yesVotes / totalVotes) * 100).toFixed(0))
+
   return totalVotes === 0 ? '50' : ((yesVotes / totalVotes) * 100).toFixed(0);
 };
 
