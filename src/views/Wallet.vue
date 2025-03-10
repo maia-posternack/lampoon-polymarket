@@ -170,7 +170,7 @@ const marketsTraded = computed(() => currentBets.value.length);
 
 // ✅ Computed property to calculate total volume traded (sum of all bet amounts)
 const volumeTraded = computed(() =>
-  currentBets.value.reduce((total, bet) => total + (bet.amount || 0), 0)
+  parseFloat(currentBets.value.reduce((total, bet) => total + (bet.amount || 0), 0)).toFixed(2)
 );
 watch([positionsValue, volumeTraded], async ([newPositionsValue, newVolumeTraded]) => {
   if (!userId.value) return; // Prevent updates if user not found
