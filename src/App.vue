@@ -3,14 +3,20 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-onMounted(() => {
-  if (route.query.auth === 'lampoonoverride') {
-    sessionStorage.setItem('authBypass', 'true')
-  }
-})
+// Run once AND on every route change
+watch(
+  () => route.query.auth,
+  (auth) => {
+    if (auth === 'lampoonoverride') {
+      sessionStorage.setItem('authBypass', 'true')
+    }
+  },
+  { immediate: true }
+)
+
 </script>
