@@ -23,8 +23,19 @@ const markets = ref([]);
 const tag = route.params.tag;
 const isAuthenticated = ref(false);
 
-// Determine if the current route requires authentication
-const requiresAuth = computed(() => tag === 'lampoon');
+// Check if the current route requires auth
+const requiresAuth = computed(() => {
+  const tagParam = route.params.tag;
+  const hasBypassToken = route.query.auth === '1';
+  return tagParam === 'lampoon' && !hasBypassToken;
+});
+
+// Automatically authenticate if token is present
+onMounted(() => {
+  if (route.query.auth === '1') {
+    isAuthenticated.value = true;
+  }
+});
 
 // Function to handle successful authentication
 const handleAuthentication = (status) => {
