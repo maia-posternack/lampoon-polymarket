@@ -70,11 +70,16 @@ export default {
     const uploadButtonText = ref("Upload an Image (Optional)");
 
     const sam_pics = [
-      "https://firebasestorage.googleapis.com/v0/b/lampoon-polymarket.firebasestorage.app/o/marketImages%2F1741492327463-IMG_2114.jpg?alt=media&token=079183c7-106a-4ebd-a73c-38ad359bf6b8",
-      "https://firebasestorage.googleapis.com/v0/b/lampoon-polymarket.firebasestorage.app/o/marketImages%2F1741492348475-IMG_2116.jpg?alt=media&token=dcf666e7-e4f8-44ac-a95b-b7fdafe79beb",
-      "https://firebasestorage.googleapis.com/v0/b/lampoon-polymarket.firebasestorage.app/o/marketImages%2F1741492303184-IMG_2112.jpg?alt=media&token=f127113d-c3f9-45d0-a107-51260cfca9bf",
-      "https://firebasestorage.googleapis.com/v0/b/lampoon-polymarket.firebasestorage.app/o/marketImages%2F1741492338426-IMG_2115%202.jpg?alt=media&token=84e0f911-5333-413a-8d48-17b2e6aba2ae",
-      "https://firebasestorage.googleapis.com/v0/b/lampoon-polymarket.firebasestorage.app/o/marketImages%2F1741492316121-IMG_2113.jpg?alt=media&token=abe4aa3f-8ed2-436b-b82e-7e15c79b9053",
+    "https://firebasestorage.googleapis.com/v0/b/lampoon-polymarket.firebasestorage.app/o/marketImages%2F1744599226227-stock2.jpg?alt=media&token=73340862-0385-4942-939b-4c819fd4fb12",
+    "https://firebasestorage.googleapis.com/v0/b/lampoon-polymarket.firebasestorage.app/o/marketImages%2F1744599214809-stock1.jpeg?alt=media&token=96552eff-5e10-47f6-8226-ed20aa7cc481",
+    "https://firebasestorage.googleapis.com/v0/b/lampoon-polymarket.firebasestorage.app/o/marketImages%2F1744599269140-stock6.jpeg?alt=media&token=92614dfc-32ae-4bbb-bf7b-6fd82e08557a",
+    "https://firebasestorage.googleapis.com/v0/b/lampoon-polymarket.firebasestorage.app/o/marketImages%2F1744599236354-stock3.jpeg?alt=media&token=607a646c-e239-4957-9165-73403cc80524",
+    "https://firebasestorage.googleapis.com/v0/b/lampoon-polymarket.firebasestorage.app/o/marketImages%2F1744599248236-stock4.jpg?alt=media&token=6696f36c-3bed-4e33-bdf0-c30b65132d5e",
+    "https://firebasestorage.googleapis.com/v0/b/lampoon-polymarket.firebasestorage.app/o/marketImages%2F1744599258888-stock5.jpeg?alt=media&token=d0ed4f80-3cea-4744-ace2-0c7bf036e45d",
+"https://firebasestorage.googleapis.com/v0/b/lampoon-polymarket.firebasestorage.app/o/marketImages%2F1744599279426-stock7.jpg?alt=media&token=b7e12ec7-194a-46ee-b89f-e0b2f427fe12 "
+
+
+
     ];
 
     const handleImageUpload = async (event) => {
