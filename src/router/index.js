@@ -16,7 +16,7 @@ const routes = [
     path: '/market/:tag',
     name: 'MarketList',
     component: MarketListPage,
-    props: true, // Pass route params as props to the component
+    props: true, 
   },
     { path: "/market", component: Market },
   { path: "/create", component: Create },

@@ -23,19 +23,21 @@ const markets = ref([]);
 const tag = route.params.tag;
 const isAuthenticated = ref(false);
 
-// Check if the current route requires auth
-const requiresAuth = computed(() => {
-  const tagParam = route.params.tag;
-  const hasBypassToken = route.query.auth === '1';
-  return tagParam === 'lampoon' && !hasBypassToken;
-});
 
-// Automatically authenticate if token is present
+const requiresAuth = computed(() => tag === 'lampoon')
+
+// 🔐 Check both query param and sessionStorage
 onMounted(() => {
-  if (route.query.auth === '1') {
-    isAuthenticated.value = true;
+  const queryAuth = route.query.auth
+
+  if (queryAuth === 'lampooonoverride') {
+    sessionStorage.setItem('authBypass', 'true')
+    isAuthenticated.value = true
+  } else if (sessionStorage.getItem('authBypass') === 'true') {
+    isAuthenticated.value = true
   }
-});
+})
+
 
 // Function to handle successful authentication
 const handleAuthentication = (status) => {
