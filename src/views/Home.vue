@@ -45,10 +45,19 @@ const calculateOdds = (yesVotes, noVotes) => {
   return totalVotes === 0 ? '50' : ((yesVotes / totalVotes) * 100).toFixed(0);
 };
 
-// Computed property to filter out markets with the 'Lampoon' tag
+// only filter if not bypassed
 const filteredMarkets = computed(() => {
-  return markets.value.filter(market => market.tag !== 'Lampoon');
+  const bypassActive = sessionStorage.getItem('authBypass') === 'true';
+
+  return markets.value.filter(market => {
+    // Show everything if VIP override is active
+    if (bypassActive) return true;
+
+    // Otherwise, hide Lampoon-tagged markets
+    return market.tag !== 'Lampoon';
+  });
 });
+
 
 // Fetch markets when the component is mounted
 onMounted(fetchMarkets);
